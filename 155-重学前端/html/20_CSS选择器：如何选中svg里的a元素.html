@@ -1,0 +1,195 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>20 | CSS 选择器：如何选中svg里的a元素？</title>
+    <style type="text/css">
+        html{color:#333;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;text-rendering:optimizelegibility;font-family:Helvetica Neue,PingFang SC,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif}html.borderbox *,html.borderbox :after,html.borderbox :before{box-sizing:border-box}article,aside,blockquote,body,button,code,dd,details,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hr,input,legend,li,menu,nav,ol,p,pre,section,td,textarea,th,ul{margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,menu,nav,section{display:block}audio,canvas,video{display:inline-block}body,button,input,select,textarea{font:300 1em/1.8 PingFang SC,Lantinghei SC,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,Helvetica,sans-serif}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}blockquote{position:relative;color:#999;font-weight:400;border-left:1px solid #1abc9c;padding-left:1em;margin:1em 3em 1em 2em}@media only screen and (max-width:640px){blockquote{margin:1em 0}}abbr,acronym{border-bottom:1px dotted;font-variant:normal}abbr{cursor:help}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}ol,ul{list-style:none}caption,th{text-align:left}q:after,q:before{content:""}sub,sup{font-size:75%;line-height:0;position:relative}:root sub,:root sup{vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a{color:#1abc9c}a:hover{text-decoration:underline}.typo a{border-bottom:1px solid #1abc9c}.typo a:hover{border-bottom-color:#555;color:#555}.typo a:hover,a,ins{text-decoration:none}.typo-u,u{text-decoration:underline}mark{background:#fffdd1;border-bottom:1px solid #ffedce;padding:2px;margin:0 5px}code,pre,pre tt{font-family:Courier,Courier New,monospace}pre{background:hsla(0,0%,97%,.7);border:1px solid #ddd;padding:1em 1.5em;display:block;-webkit-overflow-scrolling:touch}hr{border:none;border-bottom:1px solid #cfcfcf;margin-bottom:.8em;height:10px}.typo-small,figcaption,small{font-size:.9em;color:#888}b,strong{font-weight:700;color:#000}[draggable]{cursor:move}.clearfix:after,.clearfix:before{content:"";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.textwrap,.textwrap td,.textwrap th{word-wrap:break-word;word-break:break-all}.textwrap-table{table-layout:fixed}.serif{font-family:Palatino,Optima,Georgia,serif}.typo-dl,.typo-form,.typo-hr,.typo-ol,.typo-p,.typo-pre,.typo-table,.typo-ul,.typo dl,.typo form,.typo hr,.typo ol,.typo p,.typo pre,.typo table,.typo ul,blockquote{margin-bottom:1rem}h1,h2,h3,h4,h5,h6{font-family:PingFang SC,Helvetica Neue,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif;color:#000;line-height:1.35}.typo-h1,.typo-h2,.typo-h3,.typo-h4,.typo-h5,.typo-h6,.typo h1,.typo h2,.typo h3,.typo h4,.typo h5,.typo h6{margin-top:1.2em;margin-bottom:.6em;line-height:1.35}.typo-h1,.typo h1{font-size:2em}.typo-h2,.typo h2{font-size:1.8em}.typo-h3,.typo h3{font-size:1.6em}.typo-h4,.typo h4{font-size:1.4em}.typo-h5,.typo-h6,.typo h5,.typo h6{font-size:1.2em}.typo-ul,.typo ul{margin-left:1.3em;list-style:disc}.typo-ol,.typo ol{list-style:decimal;margin-left:1.9em}.typo-ol ol,.typo-ol ul,.typo-ul ol,.typo-ul ul,.typo li ol,.typo li ul{margin-bottom:.8em;margin-left:2em}.typo-ol ul,.typo-ul ul,.typo li ul{list-style:circle}.typo-table td,.typo-table th,.typo table caption,.typo table td,.typo table th{border:1px solid #ddd;padding:.5em 1em;color:#666}.typo-table th,.typo table th{background:#fbfbfb}.typo-table thead th,.typo table thead th{background:hsla(0,0%,95%,.7)}.typo table caption{border-bottom:none}.typo-input,.typo-textarea{-webkit-appearance:none;border-radius:0}.typo-em,.typo em,caption,legend{color:#000;font-weight:inherit}.typo-em{position:relative}.typo-em:after{position:absolute;top:.65em;left:0;width:100%;overflow:hidden;white-space:nowrap;content:"\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB"}.typo img{max-width:100%}.common-content{font-weight:400;color:#353535;line-height:1.75rem;white-space:normal;word-break:normal;font-size:1rem}.common-content img{display:block;max-width:100%;background-color:#eee}.common-content audio,.common-content video{width:100%;background-color:#eee}.common-content center,.common-content font{margin-top:1rem;display:inline-block}.common-content center{width:100%}.common-content pre{margin-top:1rem;padding-left:0;padding-right:0;position:relative;overflow:hidden}.common-content pre code{font-size:.8rem;font-family:Consolas,Liberation Mono,Menlo,monospace,Courier;display:block;width:100%;box-sizing:border-box;padding-left:1rem;padding-right:1rem;overflow-x:auto}.common-content hr{border:none;margin-top:1.5rem;margin-bottom:1.5rem;border-top:1px solid #f5f5f5;height:1px;background:none}.common-content b,.common-content h1,.common-content h2,.common-content h3,.common-content h4,.common-content h5,.common-content strong{font-weight:700}.common-content h1,.common-content h2{font-size:1.125rem;margin-bottom:.45rem}.common-content h3,.common-content h4,.common-content h5{font-size:1rem;margin-bottom:.45rem}.common-content p{font-weight:400;color:#353535;margin-top:.15rem}.common-content .orange{color:#ff5a05}.common-content .reference{font-size:1rem;color:#888}.custom-rich-content h1{margin-top:0;font-weight:400;font-size:15.25px;border-bottom:1px solid #eee;line-height:2.8}.custom-rich-content li,.custom-rich-content p{font-size:14px;color:#888;line-height:1.6}table.hljs-ln{margin-bottom:0;border-spacing:0;border-collapse:collapse}table.hljs-ln,table.hljs-ln tbody,table.hljs-ln td,table.hljs-ln tr{box-sizing:border-box}table.hljs-ln td{padding:0;border:0}table.hljs-ln td.hljs-ln-numbers{min-width:15px;color:rgba(27,31,35,.3);text-align:right;white-space:nowrap;cursor:pointer;user-select:none}table.hljs-ln td.hljs-ln-code,table.hljs-ln td.hljs-ln-numbers{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px;line-height:20px;vertical-align:top}table.hljs-ln td.hljs-ln-code{position:relative;padding-right:10px;padding-left:10px;overflow:visible;color:#24292e;word-wrap:normal;white-space:pre}video::-webkit-media-controls{overflow:hidden!important}video::-webkit-media-controls-enclosure{width:calc(100% + 32px);margin-left:auto}.button-cancel{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel,.button-primary{-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary{color:#fff;background-color:#ff5a05;border-radius:3px}@font-face{font-family:iconfont;src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot);src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.woff) format("woff"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.ttf) format("truetype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.svg#iconfont) format("svg")}@font-face{font-family:player-font;src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot);src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.woff) format("woff"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.ttf) format("truetype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.svg#player-font) format("svg")}.iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-webkit-text-stroke-width:.2px;-moz-osx-font-smoothing:grayscale}html{background:#fff;min-height:100%;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{width:100%}body.fixed{overflow:hidden;position:fixed;width:100vw;height:100vh}i{font-style:normal}a{word-wrap:break-word;-webkit-tap-highlight-color:rgba(0,0,0,0)}a:hover{text-decoration:none}.fade-enter-active,.fade-leave-active{transition:opacity .3s}.fade-enter,.fade-leave-to{opacity:0}.MathJax,.MathJax_CHTML,.MathJax_MathContainer,.MathJax_MathML,.MathJax_PHTML,.MathJax_PlainSource,.MathJax_SVG{outline:0}.ios-app-switch .js-audit{display:none}._loading_wrap_{position:fixed;width:100vw;height:100vh;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999}._loading_div_class_,._loading_wrap_{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center}._loading_div_class_{word-wrap:break-word;padding:.5rem .75rem;text-align:center;z-index:9999;font-size:.6rem;max-width:60%;color:#fff;border-radius:.25rem;-ms-flex-direction:column;flex-direction:column}._loading_div_class_ .message{color:#353535;font-size:16px;line-height:3}.spinner{animation:circle-rotator 1.4s linear infinite}.spinner *{line-height:0;box-sizing:border-box}@keyframes circle-rotator{0%{transform:rotate(0deg)}to{transform:rotate(270deg)}}.path{stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:circle-dash 1.4s ease-in-out infinite,circle-colors 5.6s ease-in-out infinite}@keyframes circle-colors{0%{stroke:#ff5a05}to{stroke:#ff5a05}}@keyframes circle-dash{0%{stroke-dashoffset:187}50%{stroke-dashoffset:46.75;transform:rotate(135deg)}to{stroke-dashoffset:187;transform:rotate(450deg)}}.confirm-box-wrapper,.confirm-box-wrapper .mask{position:absolute;top:0;left:0;right:0;bottom:0}.confirm-box-wrapper .mask{background:rgba(0,0,0,.6)}.confirm-box-wrapper .confirm-box{position:fixed;top:50%;left:50%;width:267px;background:#fff;transform:translate(-50%,-50%);border-radius:7px}.confirm-box-wrapper .confirm-box .head{margin:0 18px;font-size:18px;text-align:center;line-height:65px;border-bottom:1px solid #d9d9d9}.confirm-box-wrapper .confirm-box .body{padding:18px;padding-bottom:0;color:#353535;font-size:12.5px;max-height:150px;overflow:auto}.confirm-box-wrapper .confirm-box .foot{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;padding:18px}.confirm-box-wrapper .confirm-box .foot .button-cancel{border:1px solid #d9d9d9}.hljs{display:block;overflow-x:auto;padding:.5em;color:#333;background:#f8f8f8}.hljs-comment,.hljs-quote{color:#998;font-style:italic}.hljs-keyword,.hljs-selector-tag,.hljs-subst{color:#333;font-weight:700}.hljs-literal,.hljs-number,.hljs-tag .hljs-attr,.hljs-template-variable,.hljs-variable{color:teal}.hljs-doctag,.hljs-string{color:#d14}.hljs-section,.hljs-selector-id,.hljs-title{color:#900;font-weight:700}.hljs-subst{font-weight:400}.hljs-class .hljs-title,.hljs-type{color:#458;font-weight:700}.hljs-attribute,.hljs-name,.hljs-tag{color:navy;font-weight:400}.hljs-link,.hljs-regexp{color:#009926}.hljs-bullet,.hljs-symbol{color:#990073}.hljs-built_in,.hljs-builtin-name{color:#0086b3}.hljs-meta{color:#999;font-weight:700}.hljs-deletion{background:#fdd}.hljs-addition{background:#dfd}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+        .button-cancel[data-v-87ffcada]{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel[data-v-87ffcada],.button-primary[data-v-87ffcada]{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary[data-v-87ffcada]{color:#fff;background-color:#ff5a05;border-radius:3px}.pd[data-v-87ffcada]{padding-left:1.375rem;padding-right:1.375rem}.article[data-v-87ffcada]{max-width:70rem;margin:0 auto}.article .article-unavailable[data-v-87ffcada]{color:#fa8919;font-size:15px;font-weight:600;line-height:24px;border-radius:5px;padding:12px;background-color:#f6f7fb;margin-top:20px}.article .article-unavailable .iconfont[data-v-87ffcada]{font-size:12px}.article .main[data-v-87ffcada]{padding:1.25rem 0;margin-bottom:52px}.article-title[data-v-87ffcada]{color:#353535;font-weight:bold;line-height:1.65rem;font-size:1.34375rem}.article-info[data-v-87ffcada]{color:#888;font-size:.9375rem;margin-top:1.0625rem}.article-content[data-v-87ffcada]{margin-top:1.0625rem}.article-content.android video[data-v-87ffcada]::-webkit-media-controls-fullscreen-button{display:none}.copyright[data-v-87ffcada]{color:#b2b2b2;padding-bottom:20px;margin-top:20px;font-size:13px}.audio-player[data-v-87ffcada]{width:100%;margin:20px 0}.to-comment[data-v-87ffcada]{overflow:hidden;padding-top:10px;margin-bottom:-30px}.to-comment a.button-primary[data-v-87ffcada]{float:right;height:20px;font-size:12px;line-height:20px;padding:4px 8px;cursor:pointer}.article-comments[data-v-87ffcada]{margin-top:2rem}.article-comments h2[data-v-87ffcada]{text-align:center;color:#888;position:relative;z-index:1;margin-bottom:1rem}.article-comments h2[data-v-87ffcada]:before{border-top:1px dotted #888;content:"";position:absolute;top:56%;left:0;width:100%;z-index:-1}.article-comments h2 span[data-v-87ffcada]{font-size:15.25px;font-weight:400;padding:0 1rem;background:#fff;display:inline-block}.article-sub-bottom[data-v-87ffcada]{z-index:10;cursor:pointer}.switch-btns[data-v-87ffcada]{height:76px;cursor:pointer;padding-top:24px;padding-bottom:24px;border-bottom:10px solid #f6f7fb;position:relative}.switch-btns[data-v-87ffcada]:before{content:" ";height:1px;background:#e8e8e8;position:absolute;top:0;left:0;-webkit-box-sizing:border-box;box-sizing:border-box;left:1.375rem;right:1.375rem}.switch-btns .btn[data-v-87ffcada]{height:38px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.switch-btns .btn .tag[data-v-87ffcada]{-webkit-box-flex:0;-ms-flex:0 0 62px;flex:0 0 62px;text-align:center;color:#888;font-size:14px;border-radius:10px;height:22px;line-height:22px;background:#f6f7fb;font-weight:400}.switch-btns .btn .txt[data-v-87ffcada]{margin-left:10px;-webkit-box-flex:1;-ms-flex:1 1 auto;flex:1 1 auto;color:#888;font-size:15px;height:22px;line-height:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}@media (max-width:769px){.article .breadcrumb[data-v-87ffcada]{padding-top:10px;padding-bottom:10px}}
+        .comment-item{list-style-position:inside;width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;margin-bottom:1rem}.comment-item a{border-bottom:none}.comment-item .avatar{width:2.625rem;height:2.625rem;-ms-flex-negative:0;flex-shrink:0;border-radius:50%}.comment-item .info{margin-left:.5rem;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1}.comment-item .info .hd{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .username{color:#888;font-size:15.25px;font-weight:400;line-height:1.2}.comment-item .info .hd .control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .control .btn-share{color:#888;font-size:.75rem;margin-right:1rem}.comment-item .info .hd .control .btn-praise{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:15.25px;text-decoration:none}.comment-item .info .hd .control .btn-praise i{color:#888;display:inline-block;font-size:.75rem;margin-right:.3rem;margin-top:-.01rem}.comment-item .info .hd .control .btn-praise i.on,.comment-item .info .hd .control .btn-praise span{color:#ff5a05}.comment-item .info .bd{color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all;line-height:1.6}.comment-item .info .time{color:#888;font-size:9px;line-height:1}.comment-item .info .reply .reply-hd{font-size:15.25px}.comment-item .info .reply .reply-hd span{margin-left:-12px;color:#888;font-weight:400}.comment-item .info .reply .reply-hd i{color:#ff5a05;font-size:15.25px}.comment-item .info .reply .reply-content{background:#f6f7fb;padding:18px;border-radius:10px;color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all}.comment-item .info .reply .reply-time{color:#888;font-size:9px}
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div data-v-87ffcada="" class="article" id="watermark">
+
+        <div data-v-87ffcada="" class="main main-app">
+            <h1 data-v-87ffcada="" class="article-title pd">
+               20 | CSS 选择器：如何选中svg里的a元素？
+            </h1>
+            <hr>
+            <div data-v-87ffcada="" class="article-content typo common-content pd">
+                <img data-v-87ffcada="" src="https://static001.geekbang.org/resource/image/13/c7/13b7877ec262155ae5e7e20340a46ac7.jpg">
+
+
+                <div data-v-87ffcada="" id="article-content" class="">
+                    <div class="text">
+                        <p>你好，我是winter。</p><p>我们在之前CSS语法课程中，已经介绍了关于选择器的一部分基础知识。在今天的这一课里，我们来系统学习一下CSS选择器。</p><p>在CSS语法课程中，我们已经见过一些选择器了，但在进入到具体的选择器介绍之前，我们首先要对选择器有一个整体的认识。</p><p>我先来讲讲选择器是什么，选择器是由CSS最先引入的一个机制（但随着document.querySelector等API的加入，选择器已经不仅仅是CSS的一部分了）。我们今天这一课，就重点讲讲CSS选择器的一些机制。</p><p><strong>选择器的基本意义是：根据一些特征，选中元素树上的一批元素。</strong></p><p>我们把选择器的结构分一下类，那么由简单到复杂可以分成以下几种。</p><ul>
+<li>简单选择器：针对某一特征判断是否选中元素。</li>
+<li>复合选择器：连续写在一起的简单选择器，针对元素自身特征选择单个元素。</li>
+<li>复杂选择器：由“（空格）”“ &gt;”“ ~”“ +”“ ||”等符号连接的复合选择器，根据父元素或者前序元素检查单个元素。</li>
+<li>选择器列表：由逗号分隔的复杂选择器，表示“或”的关系。</li>
+</ul><p>我们可以看到，选择器是由简单选择器逐级组合而成的结构，那么我们就来首先看一下简单选择器。</p><h2>简单选择器</h2><p>我们在前面说过，简单选择器是针对某一特征判断是否为选中元素。今天我会为你介绍一系列常见的简单选择器，我们把相似的简单选择器放在一起，这样更易于你去记忆。</p><!-- [[[read_end]]] --><p><img src="https://static001.geekbang.org/resource/image/4c/ce/4c9ac78870342dc802137ea9c848c0ce.png" alt=""></p><h2>类型选择器和全体选择器</h2><p>我们要介绍的第一个简单选择器就是类型选择器，它根据一个元素的标签名来选中元素。</p><p>比如：</p><pre><code>   div {
+
+   }
+</code></pre><p>这看上去非常简单，但是实际上，我们还必须要考虑html或者xml元素的命名空间问题。</p><p>比如我们的svg元素，实际上在： <a href="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</a> 命名空间之下。</p><p>svg和html中都有a元素，我们若要想区分选择svg中的a和html中的a，就必须用带命名空间的类型选择器。</p><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;JS Bin&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;svg width=&quot;100&quot; height=&quot;28&quot; viewBox=&quot;0 0 100 28&quot; version=&quot;1.1&quot;
+     xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;&gt;
+  &lt;desc&gt;Example link01 - a link on an ellipse
+  &lt;/desc&gt;
+  &lt;a xlink:href=&quot;http://www.w3.org&quot;&gt;
+    &lt;text y=&quot;100%&quot;&gt;name&lt;/text&gt;
+  &lt;/a&gt;
+&lt;/svg&gt;
+&lt;br/&gt;
+&lt;a href=&quot;javascript:void 0;&quot;&gt;name&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+@namespace svg url(http://www.w3.org/2000/svg);
+@namespace html url(http://www.w3.org/1999/xhtml);
+svg|a {
+  stroke:blue;
+  stroke-width:1;
+}
+
+html|a {
+  font-size:40px
+}
+</code></pre><p>这里有一个特殊的选择器，就是“ * ” ，它称为全体选择器，可以选中任意元素。它的用法跟类型选择器是完全一致的，这里就把它们放到一起介绍了。</p><h2>id选择器与class选择器</h2><p>id选择器和class选择器都是针对特定属性的选择器。id选择器是“#”号后面跟随id名，class选择器是“.”后面跟随class名。我们来看看基本用法：</p><pre><code>#myid {
+  stroke:blue;
+  stroke-width:1;
+}
+
+.mycls {
+  font-size:40px
+}
+</code></pre><p>这两个选择器都是在属性选择器之前就设计出来的选择器，属性选择器出来了以后，理论上可以一定程度上替代它们。但是要注意，class选择器识别的是：用空格分隔的class语法。</p><pre><code>&lt;a class=&quot;a b c&quot;&gt;xxx&lt;/a&gt;
+.a {
+    color:red;
+}
+</code></pre><p>在这个例子中，我们使用了用空格分隔的class属性，使用“.a”“.b”或者“.c”都能够选中元素，也可以使用多个class选择器来要求元素具有多个类。</p><h2>属性选择器</h2><p>属性选择器根据HTML元素的属性来选中元素。属性选择器有四种形态。</p><ul>
+<li>第一种，[att]</li>
+</ul><p>直接在方括号中放入属性名，是检查元素是否具有这个属性，只要元素有这个属性，不论属性是什么值，都可以被选中。</p><ul>
+<li>第二种，[att=val]</li>
+</ul><p>精确匹配，检查一个元素属性的值是否是val。</p><ul>
+<li>第三种，[att~=val]</li>
+</ul><p>多种匹配，检查一个元素的值是否是若干值之一，这里的val不是一个单一的值了，可以是用空格分隔的一个序列。</p><ul>
+<li>第四种，[att|=val]</li>
+</ul><p>开头匹配，检查一个元素的值是否是以val开头，它跟精确匹配的区别是属性只要以val开头即可，后面内容不管。</p><p>有些HTML属性含有特殊字符，这个时候，可以把val用引号括起来，形成一个CSS字符串。CSS字符串允许使用单双引号来规避特殊字符，也可以用反斜杠转义，这样，就可以表示出任意属性值啦。</p><h2>伪类选择器</h2><p>接下来我们开始介绍伪类选择器，伪类选择器是一系列由CSS规定好的选择器，它们以冒号开头。伪类选择器有普通型和函数型两种。</p><p>我们首先来介绍一下伪类中最常用的部分：树结构关系伪类。</p><h3>树结构关系伪类选择器</h3><p>:root 伪类表示树的根元素，在选择器是针对完整的html文档情况，我们一般用html标签即可选中根元素。但是随着scoped css和shadow root等场景出现，选择器可以针对某一子树来选择，这时候就很需要root伪类了。</p><ul>
+<li>:empty 伪类表示没有子节点的元素，这里有个例外就是子节点为空白文本节点的情况。</li>
+<li>:nth-child 和 :nth-last-child 这是两个函数型的伪类，CSS的An+B语法设计的是比较复杂的，我们这里仅仅介绍基本用法。我们还是看几个例子：</li>
+</ul><p><img src="https://static001.geekbang.org/resource/image/1e/a9/1ebdba2978a22c13844d108318b271a9.png" alt=""></p><ul>
+<li>:nth-last-child的区别仅仅是从后往前数。</li>
+<li>:first-child :last-child 分别表示第一个和最后一个元素。</li>
+<li>:only-child 按字面意思理解即可，选中唯一一个子元素。</li>
+</ul><p>of-type系列，是一个变形的语法糖，S:nth-of-type(An+B)是:nth-child(|An+B| of S)的另一种写法。</p><p>以此类推，还有nth-last-of-type、first-of-type、last-of-type、only-of-type。</p><h3>链接与行为伪类选择器</h3><p>链接与行为是第一批设计出来的伪类，也是最常用的一批。</p><ul>
+<li>:any-link 表示任意的链接，包括a、area和link标签都可能匹配到这个伪类。</li>
+<li>:link 表示未访问过的链接， :visited 表示已经访问过的链接。</li>
+<li>:hover 表示鼠标悬停在上的元素，</li>
+<li>:active 表示用户正在激活这个元素，如用户按下按钮，鼠标还未抬起时，这个按钮就处于激活状态</li>
+<li>:focus 表示焦点落在这个元素之上。</li>
+<li>:target 用于选中浏览器URL的hash部分所指示的元素。</li>
+</ul><p>在Selector Level 4草案中，还引入了 target-within、focus-within 等伪类，用于表示target或者focus的父容器。</p><h3>逻辑伪类选择器</h3><p>我们这里介绍一个逻辑伪类 —— :not 伪类。</p><p>这个伪类是个函数型伪类，它的作用时选中内部的简单选择器命中的元素。</p><pre><code>*|*:not(:hover)
+</code></pre><p>选择器3级标准中，not只支持简单选择器，在选择器4级标准，则允许not接受一个选择器列表，这意味着选择器支持嵌套，仅靠not即可完成选择器的一阶真值逻辑完备，但目前还没有看到浏览器实现它。</p><p>在Selector Level 4草案中，还引入了:is :where :has 等逻辑伪类，但是它们有一些违背了选择器匹配DOM树不回溯的原则，所以这部分设计最终的命运如何还不太确定。</p><h3>其它伪类选择器</h3><p>还有一些草案中或者不常用的选择器，你仅做大概了解即可。</p><ul>
+<li>
+<p>国际化：用于处理国际化和多语言问题。</p>
+<ul>
+<li>dir</li>
+<li>lang</li>
+</ul>
+</li>
+<li>
+<p>音频/视频：用于区分音视频播放状态。</p>
+<ul>
+<li>play</li>
+<li>pause</li>
+</ul>
+</li>
+<li>
+<p>时序：用于配合读屏软件等时序性客户端的伪类。</p>
+<ul>
+<li>current</li>
+<li>past</li>
+<li>future</li>
+</ul>
+</li>
+<li>
+<p>表格：用于处理table的列的伪类。</p>
+<ul>
+<li>nth-col</li>
+<li>nth-last-col</li>
+</ul>
+</li>
+</ul><p>伪类是很大的一类简单选择器，它是选择器能力的一种补充。在实际使用中，我还是建议你尽量通过合适的id和class来标识元素，约束伪类的使用。最好只在不得不使用伪类的场景使用伪类，这对于CSS代码的性能和可读性都有好处。</p><h2>结语</h2><p>这一节课程中，我们介绍了CSS选择器的整体结构，并且介绍了一系列简单选择器。它们包括了下面这些内容。</p><ul>
+<li>类型选择器：根据一个元素的标签名来选中元素。</li>
+<li>全体选择器：与类型选择器类似，选择任意元素。</li>
+<li>id选择器：#后面跟随id名。</li>
+<li>class选择器：.后面跟随class名。</li>
+<li>伪类选择器：一系列由CSS规定好的选择器，它们以冒号开头，伪类有普通型和函数型。</li>
+</ul><p>在下一节课，我们开始进入到更复杂的情况，我们将会介绍选择器的组合使用方式和选择器的一些机制。</p><p>今天留给你的思考题是：用JavaScript实现一个能够处理所有简单选择器的querySelector（行为伪类除外），你可以把你的答案分享出来，我们一起来探讨吧。</p><p><img src="https://static001.geekbang.org/resource/image/7c/b1/7ca7c24e92d25bde2e8609ed5386b5b1.jpg" alt=""></p>
+                    </div>
+                </div>
+                <div data-v-87ffcada="" class="article-comments"><h2 data-v-87ffcada=""><span
+                        data-v-87ffcada="">精选留言</span></h2>
+                    <ul data-v-87ffcada="">
+
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/94/56/8132292a.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Carson</span>
+                                </div>
+                                <div class="bd">namespace 和 of-type 系列的选择器的知识点，没想到之前居然完全被自己忽略。<br><br>系统性的学习才不会遗漏，才会有叠加效果。<br><br></div>
+                                <span class="time">2019-03-04</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/35/d0/540d42d8.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">阿成</span>
+                                </div>
+                                <div class="bd">没想到写个 querySelector 这么费劲...<br>还有很多情况没处理到的...<br>emmm... 选择器字符串解析的部分应该上词法和语法分析的..<br>差不多能用吧就...<br>https:&#47;&#47;github.com&#47;aimergenge&#47;my-querySelector<br></div>
+                                <span class="time">2019-03-06</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/be/22/8bb1640f.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">oillie</span>
+                                </div>
+                                <div class="bd">id可以用document.getElementById<br>class可以用document.getElementsByClassName<br>tag可以用document.getElementsByTagName<br>attribute没直接API可用，本人能想到的是可以先取全部document.getElementByTagName(&#39;*&#39;)再过滤<br></div>
+                                <span class="time">2019-03-05</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/0f/a7/783e4f88.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">[已重置]</span>
+                                </div>
+                                <div class="bd">查了一些资料也没太弄明白为什么 svg 就在 http:&#47;&#47;www.w3.org&#47;2000&#47;svg 这个命名空间下，好像是规范里就规定了svg属于这个命名空间？<br><br></div>
+                                <span class="time">2019-03-07</span>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

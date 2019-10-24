@@ -1,0 +1,441 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>27 |（小实验）理解编译原理：一个四则运算的解释器</title>
+    <style type="text/css">
+        html{color:#333;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;text-rendering:optimizelegibility;font-family:Helvetica Neue,PingFang SC,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif}html.borderbox *,html.borderbox :after,html.borderbox :before{box-sizing:border-box}article,aside,blockquote,body,button,code,dd,details,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hr,input,legend,li,menu,nav,ol,p,pre,section,td,textarea,th,ul{margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,menu,nav,section{display:block}audio,canvas,video{display:inline-block}body,button,input,select,textarea{font:300 1em/1.8 PingFang SC,Lantinghei SC,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,Helvetica,sans-serif}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}blockquote{position:relative;color:#999;font-weight:400;border-left:1px solid #1abc9c;padding-left:1em;margin:1em 3em 1em 2em}@media only screen and (max-width:640px){blockquote{margin:1em 0}}abbr,acronym{border-bottom:1px dotted;font-variant:normal}abbr{cursor:help}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}ol,ul{list-style:none}caption,th{text-align:left}q:after,q:before{content:""}sub,sup{font-size:75%;line-height:0;position:relative}:root sub,:root sup{vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a{color:#1abc9c}a:hover{text-decoration:underline}.typo a{border-bottom:1px solid #1abc9c}.typo a:hover{border-bottom-color:#555;color:#555}.typo a:hover,a,ins{text-decoration:none}.typo-u,u{text-decoration:underline}mark{background:#fffdd1;border-bottom:1px solid #ffedce;padding:2px;margin:0 5px}code,pre,pre tt{font-family:Courier,Courier New,monospace}pre{background:hsla(0,0%,97%,.7);border:1px solid #ddd;padding:1em 1.5em;display:block;-webkit-overflow-scrolling:touch}hr{border:none;border-bottom:1px solid #cfcfcf;margin-bottom:.8em;height:10px}.typo-small,figcaption,small{font-size:.9em;color:#888}b,strong{font-weight:700;color:#000}[draggable]{cursor:move}.clearfix:after,.clearfix:before{content:"";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.textwrap,.textwrap td,.textwrap th{word-wrap:break-word;word-break:break-all}.textwrap-table{table-layout:fixed}.serif{font-family:Palatino,Optima,Georgia,serif}.typo-dl,.typo-form,.typo-hr,.typo-ol,.typo-p,.typo-pre,.typo-table,.typo-ul,.typo dl,.typo form,.typo hr,.typo ol,.typo p,.typo pre,.typo table,.typo ul,blockquote{margin-bottom:1rem}h1,h2,h3,h4,h5,h6{font-family:PingFang SC,Helvetica Neue,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif;color:#000;line-height:1.35}.typo-h1,.typo-h2,.typo-h3,.typo-h4,.typo-h5,.typo-h6,.typo h1,.typo h2,.typo h3,.typo h4,.typo h5,.typo h6{margin-top:1.2em;margin-bottom:.6em;line-height:1.35}.typo-h1,.typo h1{font-size:2em}.typo-h2,.typo h2{font-size:1.8em}.typo-h3,.typo h3{font-size:1.6em}.typo-h4,.typo h4{font-size:1.4em}.typo-h5,.typo-h6,.typo h5,.typo h6{font-size:1.2em}.typo-ul,.typo ul{margin-left:1.3em;list-style:disc}.typo-ol,.typo ol{list-style:decimal;margin-left:1.9em}.typo-ol ol,.typo-ol ul,.typo-ul ol,.typo-ul ul,.typo li ol,.typo li ul{margin-bottom:.8em;margin-left:2em}.typo-ol ul,.typo-ul ul,.typo li ul{list-style:circle}.typo-table td,.typo-table th,.typo table caption,.typo table td,.typo table th{border:1px solid #ddd;padding:.5em 1em;color:#666}.typo-table th,.typo table th{background:#fbfbfb}.typo-table thead th,.typo table thead th{background:hsla(0,0%,95%,.7)}.typo table caption{border-bottom:none}.typo-input,.typo-textarea{-webkit-appearance:none;border-radius:0}.typo-em,.typo em,caption,legend{color:#000;font-weight:inherit}.typo-em{position:relative}.typo-em:after{position:absolute;top:.65em;left:0;width:100%;overflow:hidden;white-space:nowrap;content:"\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB"}.typo img{max-width:100%}.common-content{font-weight:400;color:#353535;line-height:1.75rem;white-space:normal;word-break:normal;font-size:1rem}.common-content img{display:block;max-width:100%;background-color:#eee}.common-content audio,.common-content video{width:100%;background-color:#eee}.common-content center,.common-content font{margin-top:1rem;display:inline-block}.common-content center{width:100%}.common-content pre{margin-top:1rem;padding-left:0;padding-right:0;position:relative;overflow:hidden}.common-content pre code{font-size:.8rem;font-family:Consolas,Liberation Mono,Menlo,monospace,Courier;display:block;width:100%;box-sizing:border-box;padding-left:1rem;padding-right:1rem;overflow-x:auto}.common-content hr{border:none;margin-top:1.5rem;margin-bottom:1.5rem;border-top:1px solid #f5f5f5;height:1px;background:none}.common-content b,.common-content h1,.common-content h2,.common-content h3,.common-content h4,.common-content h5,.common-content strong{font-weight:700}.common-content h1,.common-content h2{font-size:1.125rem;margin-bottom:.45rem}.common-content h3,.common-content h4,.common-content h5{font-size:1rem;margin-bottom:.45rem}.common-content p{font-weight:400;color:#353535;margin-top:.15rem}.common-content .orange{color:#ff5a05}.common-content .reference{font-size:1rem;color:#888}.custom-rich-content h1{margin-top:0;font-weight:400;font-size:15.25px;border-bottom:1px solid #eee;line-height:2.8}.custom-rich-content li,.custom-rich-content p{font-size:14px;color:#888;line-height:1.6}table.hljs-ln{margin-bottom:0;border-spacing:0;border-collapse:collapse}table.hljs-ln,table.hljs-ln tbody,table.hljs-ln td,table.hljs-ln tr{box-sizing:border-box}table.hljs-ln td{padding:0;border:0}table.hljs-ln td.hljs-ln-numbers{min-width:15px;color:rgba(27,31,35,.3);text-align:right;white-space:nowrap;cursor:pointer;user-select:none}table.hljs-ln td.hljs-ln-code,table.hljs-ln td.hljs-ln-numbers{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px;line-height:20px;vertical-align:top}table.hljs-ln td.hljs-ln-code{position:relative;padding-right:10px;padding-left:10px;overflow:visible;color:#24292e;word-wrap:normal;white-space:pre}video::-webkit-media-controls{overflow:hidden!important}video::-webkit-media-controls-enclosure{width:calc(100% + 32px);margin-left:auto}.button-cancel{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel,.button-primary{-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary{color:#fff;background-color:#ff5a05;border-radius:3px}@font-face{font-family:iconfont;src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot);src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.woff) format("woff"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.ttf) format("truetype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.svg#iconfont) format("svg")}@font-face{font-family:player-font;src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot);src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.woff) format("woff"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.ttf) format("truetype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.svg#player-font) format("svg")}.iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-webkit-text-stroke-width:.2px;-moz-osx-font-smoothing:grayscale}html{background:#fff;min-height:100%;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{width:100%}body.fixed{overflow:hidden;position:fixed;width:100vw;height:100vh}i{font-style:normal}a{word-wrap:break-word;-webkit-tap-highlight-color:rgba(0,0,0,0)}a:hover{text-decoration:none}.fade-enter-active,.fade-leave-active{transition:opacity .3s}.fade-enter,.fade-leave-to{opacity:0}.MathJax,.MathJax_CHTML,.MathJax_MathContainer,.MathJax_MathML,.MathJax_PHTML,.MathJax_PlainSource,.MathJax_SVG{outline:0}.ios-app-switch .js-audit{display:none}._loading_wrap_{position:fixed;width:100vw;height:100vh;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999}._loading_div_class_,._loading_wrap_{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center}._loading_div_class_{word-wrap:break-word;padding:.5rem .75rem;text-align:center;z-index:9999;font-size:.6rem;max-width:60%;color:#fff;border-radius:.25rem;-ms-flex-direction:column;flex-direction:column}._loading_div_class_ .message{color:#353535;font-size:16px;line-height:3}.spinner{animation:circle-rotator 1.4s linear infinite}.spinner *{line-height:0;box-sizing:border-box}@keyframes circle-rotator{0%{transform:rotate(0deg)}to{transform:rotate(270deg)}}.path{stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:circle-dash 1.4s ease-in-out infinite,circle-colors 5.6s ease-in-out infinite}@keyframes circle-colors{0%{stroke:#ff5a05}to{stroke:#ff5a05}}@keyframes circle-dash{0%{stroke-dashoffset:187}50%{stroke-dashoffset:46.75;transform:rotate(135deg)}to{stroke-dashoffset:187;transform:rotate(450deg)}}.confirm-box-wrapper,.confirm-box-wrapper .mask{position:absolute;top:0;left:0;right:0;bottom:0}.confirm-box-wrapper .mask{background:rgba(0,0,0,.6)}.confirm-box-wrapper .confirm-box{position:fixed;top:50%;left:50%;width:267px;background:#fff;transform:translate(-50%,-50%);border-radius:7px}.confirm-box-wrapper .confirm-box .head{margin:0 18px;font-size:18px;text-align:center;line-height:65px;border-bottom:1px solid #d9d9d9}.confirm-box-wrapper .confirm-box .body{padding:18px;padding-bottom:0;color:#353535;font-size:12.5px;max-height:150px;overflow:auto}.confirm-box-wrapper .confirm-box .foot{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;padding:18px}.confirm-box-wrapper .confirm-box .foot .button-cancel{border:1px solid #d9d9d9}.hljs{display:block;overflow-x:auto;padding:.5em;color:#333;background:#f8f8f8}.hljs-comment,.hljs-quote{color:#998;font-style:italic}.hljs-keyword,.hljs-selector-tag,.hljs-subst{color:#333;font-weight:700}.hljs-literal,.hljs-number,.hljs-tag .hljs-attr,.hljs-template-variable,.hljs-variable{color:teal}.hljs-doctag,.hljs-string{color:#d14}.hljs-section,.hljs-selector-id,.hljs-title{color:#900;font-weight:700}.hljs-subst{font-weight:400}.hljs-class .hljs-title,.hljs-type{color:#458;font-weight:700}.hljs-attribute,.hljs-name,.hljs-tag{color:navy;font-weight:400}.hljs-link,.hljs-regexp{color:#009926}.hljs-bullet,.hljs-symbol{color:#990073}.hljs-built_in,.hljs-builtin-name{color:#0086b3}.hljs-meta{color:#999;font-weight:700}.hljs-deletion{background:#fdd}.hljs-addition{background:#dfd}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+        .button-cancel[data-v-87ffcada]{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel[data-v-87ffcada],.button-primary[data-v-87ffcada]{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary[data-v-87ffcada]{color:#fff;background-color:#ff5a05;border-radius:3px}.pd[data-v-87ffcada]{padding-left:1.375rem;padding-right:1.375rem}.article[data-v-87ffcada]{max-width:70rem;margin:0 auto}.article .article-unavailable[data-v-87ffcada]{color:#fa8919;font-size:15px;font-weight:600;line-height:24px;border-radius:5px;padding:12px;background-color:#f6f7fb;margin-top:20px}.article .article-unavailable .iconfont[data-v-87ffcada]{font-size:12px}.article .main[data-v-87ffcada]{padding:1.25rem 0;margin-bottom:52px}.article-title[data-v-87ffcada]{color:#353535;font-weight:bold;line-height:1.65rem;font-size:1.34375rem}.article-info[data-v-87ffcada]{color:#888;font-size:.9375rem;margin-top:1.0625rem}.article-content[data-v-87ffcada]{margin-top:1.0625rem}.article-content.android video[data-v-87ffcada]::-webkit-media-controls-fullscreen-button{display:none}.copyright[data-v-87ffcada]{color:#b2b2b2;padding-bottom:20px;margin-top:20px;font-size:13px}.audio-player[data-v-87ffcada]{width:100%;margin:20px 0}.to-comment[data-v-87ffcada]{overflow:hidden;padding-top:10px;margin-bottom:-30px}.to-comment a.button-primary[data-v-87ffcada]{float:right;height:20px;font-size:12px;line-height:20px;padding:4px 8px;cursor:pointer}.article-comments[data-v-87ffcada]{margin-top:2rem}.article-comments h2[data-v-87ffcada]{text-align:center;color:#888;position:relative;z-index:1;margin-bottom:1rem}.article-comments h2[data-v-87ffcada]:before{border-top:1px dotted #888;content:"";position:absolute;top:56%;left:0;width:100%;z-index:-1}.article-comments h2 span[data-v-87ffcada]{font-size:15.25px;font-weight:400;padding:0 1rem;background:#fff;display:inline-block}.article-sub-bottom[data-v-87ffcada]{z-index:10;cursor:pointer}.switch-btns[data-v-87ffcada]{height:76px;cursor:pointer;padding-top:24px;padding-bottom:24px;border-bottom:10px solid #f6f7fb;position:relative}.switch-btns[data-v-87ffcada]:before{content:" ";height:1px;background:#e8e8e8;position:absolute;top:0;left:0;-webkit-box-sizing:border-box;box-sizing:border-box;left:1.375rem;right:1.375rem}.switch-btns .btn[data-v-87ffcada]{height:38px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.switch-btns .btn .tag[data-v-87ffcada]{-webkit-box-flex:0;-ms-flex:0 0 62px;flex:0 0 62px;text-align:center;color:#888;font-size:14px;border-radius:10px;height:22px;line-height:22px;background:#f6f7fb;font-weight:400}.switch-btns .btn .txt[data-v-87ffcada]{margin-left:10px;-webkit-box-flex:1;-ms-flex:1 1 auto;flex:1 1 auto;color:#888;font-size:15px;height:22px;line-height:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}@media (max-width:769px){.article .breadcrumb[data-v-87ffcada]{padding-top:10px;padding-bottom:10px}}
+        .comment-item{list-style-position:inside;width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;margin-bottom:1rem}.comment-item a{border-bottom:none}.comment-item .avatar{width:2.625rem;height:2.625rem;-ms-flex-negative:0;flex-shrink:0;border-radius:50%}.comment-item .info{margin-left:.5rem;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1}.comment-item .info .hd{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .username{color:#888;font-size:15.25px;font-weight:400;line-height:1.2}.comment-item .info .hd .control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .control .btn-share{color:#888;font-size:.75rem;margin-right:1rem}.comment-item .info .hd .control .btn-praise{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:15.25px;text-decoration:none}.comment-item .info .hd .control .btn-praise i{color:#888;display:inline-block;font-size:.75rem;margin-right:.3rem;margin-top:-.01rem}.comment-item .info .hd .control .btn-praise i.on,.comment-item .info .hd .control .btn-praise span{color:#ff5a05}.comment-item .info .bd{color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all;line-height:1.6}.comment-item .info .time{color:#888;font-size:9px;line-height:1}.comment-item .info .reply .reply-hd{font-size:15.25px}.comment-item .info .reply .reply-hd span{margin-left:-12px;color:#888;font-weight:400}.comment-item .info .reply .reply-hd i{color:#ff5a05;font-size:15.25px}.comment-item .info .reply .reply-content{background:#f6f7fb;padding:18px;border-radius:10px;color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all}.comment-item .info .reply .reply-time{color:#888;font-size:9px}
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div data-v-87ffcada="" class="article" id="watermark">
+
+        <div data-v-87ffcada="" class="main main-app">
+            <h1 data-v-87ffcada="" class="article-title pd">
+               27 |（小实验）理解编译原理：一个四则运算的解释器
+            </h1>
+            <hr>
+            <div data-v-87ffcada="" class="article-content typo common-content pd">
+                <img data-v-87ffcada="" src="https://static001.geekbang.org/resource/image/cb/8d/cb4a6ded3cdc7c0eb6a7e3879567f08d.jpg">
+
+
+                <div data-v-87ffcada="" id="article-content" class="">
+                    <div class="text">
+                        <p>你好，我是winter。</p><p>在前面的课程中，我在JavaScript和CSS的部分，多次提到了编译原理相关的知识。这一部分的知识，如果我们从编译原理“龙书”等正规的资料中学习，就会耗费掉不少的时间，所以我在这里设计了一个小实验，帮助你快速理解编译原理相关的知识。</p><p>今天的内容比较特殊，我们来做一段详细的代码实验，详细的代码我放在了文章里，如果你正在收听音频，可以点击文章查看详情。</p><h2>分析</h2><p>按照编译原理相关的知识，我们来设计一下工作，这里我们分成几个步骤。</p><ul>
+<li>定义四则运算：产出四则运算的词法定义和语法定义。</li>
+<li>词法分析：把输入的字符串流变成token。</li>
+<li>语法分析：把token变成抽象语法树AST。</li>
+<li>解释执行：后序遍历AST，执行得出结果。</li>
+</ul><h2>定义四则运算</h2><p>四则运算就是加减乘除四种运算，例如：</p><pre><code>1 + 2 * 3
+</code></pre><p>首先我们来定义词法，四则运算里面只有数字和运算符，所以定义很简单，但是我们还要注意空格和换行符，所以词法定义大概是下面这样的。</p><ul>
+<li>Token
+<ul>
+<li>Number: <code>1</code> <code>2</code> <code>3</code> <code>4</code> <code>5</code> <code>6</code> <code>7</code> <code>8</code> <code>9</code> <code>0</code> 的组合</li>
+<li>Operator: <code>+</code> 、<code>-</code>、 <code>*</code>、 <code>/</code> 之一</li>
+</ul>
+</li>
+<li>Whitespace: <code>&lt;sp&gt;</code></li>
+<li>LineTerminator：<code>&lt;LF&gt;</code> <code>&lt;CR&gt;</code></li>
+</ul><p>这里我们对空白和换行符没有任何的处理，所以词法分析阶段会直接丢弃。</p><!-- [[[read_end]]] --><p>接下来我们来定义语法，语法定义多数采用BNF，但是其实大家写起来都是乱写的，比如JavaScript标准里面就是一种跟BNF类似的自创语法。</p><p>不过语法定义的核心思想不会变，都是几种结构的组合产生一个新的结构，所以语法定义也叫语法产生式。</p><p>因为加减乘除有优先级，所以我们可以认为加法是由若干个乘法再由加号或者减号连接成的：</p><pre><code>&lt;Expression&gt; ::= 
+    &lt;AdditiveExpression&gt;&lt;EOF&gt;
+
+&lt;AdditiveExpression&gt; ::= 
+    &lt;MultiplicativeExpression&gt;
+    |&lt;AdditiveExpression&gt;&lt;+&gt;&lt;MultiplicativeExpression&gt;
+    |&lt;AdditiveExpression&gt;&lt;-&gt;&lt;MultiplicativeExpression&gt;
+</code></pre><p>这种BNF的写法类似递归的原理，你可以理解一下，它表示一个列表。为了方便，我们把普通数字也得当成乘法的一种特例了。</p><pre><code>&lt;MultiplicativeExpression&gt; ::= 
+    &lt;Number&gt;
+    |&lt;MultiplicativeExpression&gt;&lt;*&gt;&lt;Number&gt;
+    |&lt;MultiplicativeExpression&gt;&lt;/&gt;&lt;Number&gt;
+</code></pre><p>好了，这就是四则运算的定义了。</p><h2>词法分析：状态机</h2><p>词法分析部分，我们把字符流变成token流。词法分析有两种方案，一种是状态机，一种是正则表达式，它们是等效的，选择你喜欢的就好，这里我都会你介绍一下状态机。</p><p>根据分析，我们可能产生四种输入元素，其中只有两种token，我们状态机的第一个状态就是根据第一个输入字符来判断进入了哪种状态：</p><pre><code class="language-JavaScript">var token = [];
+const start = char =&gt; {
+    if(char === '1' 
+        || char === '2'
+        || char === '3'
+        || char === '4'
+        || char === '5'
+        || char === '6'
+        || char === '7'
+        || char === '8'
+        || char === '9'
+        || char === '0'
+    ) {
+        token.push(char);
+        return inNumber;   
+    }
+    if(char === '+' 
+        || char === '-'
+        || char === '*'
+        || char === '/'
+    ) {
+        emmitToken(char, char);
+        return start
+    }
+    if(char === ' ') {
+        return start;
+    }
+    if(char === '\r' 
+        || char === '\n'
+    ) {
+        return start;
+    }
+}
+const inNumber = char =&gt; {
+    if(char === '1' 
+        || char === '2'
+        || char === '3'
+        || char === '4'
+        || char === '5'
+        || char === '6'
+        || char === '7'
+        || char === '8'
+        || char === '9'
+        || char === '0'
+    ) {
+        token.push(char);
+        return inNumber;
+    } else {
+        emmitToken("Number", token.join(""));
+        token = [];
+        return start(char); // put back char
+    }
+}
+</code></pre><p>这个状态机非常简单，它只有两个状态，因为我们只有Number不是单字符的token。</p><p>这里我的状态机实现是非常经典的方式：用函数表示状态，用if表示状态的迁移关系，用return值表示下一个状态。</p><p>下面我们来运行一下这个状态机试试看：</p><pre><code class="language-JavaScript">
+function emmitToken(type, value) {
+    console.log(value);
+}
+
+var input = "1024 + 2 * 256"
+
+var state = start;
+
+for(var c of input.split(''))
+    state = state(c);
+
+state(Symbol('EOF'))
+
+</code></pre><p>运行后我们发现输出如下：</p><pre><code>1024
++
+2
+*
+256
+</code></pre><p>这是我们想要的答案。</p><h2>语法分析：LL</h2><p>做完了词法分析，我们开始进行语法分析，LL语法分析根据每一个产生式来写一个函数，首先我们来写好函数名：</p><pre><code>function AdditiveExpression( ){
+
+
+}
+function MultiplicativeExpression(){
+    
+
+}
+</code></pre><p>为了便于理解，我们就不做流式处理了，实际上一般编译代码都应该支持流式处理。</p><p>所以我们假设token已经都拿到了：</p><pre><code class="language-JavaScript">var tokens = [{
+    type:"Number",
+    value: "1024"
+}, {
+    type:"+"
+    value: "+"
+}, {
+    type:"Number",
+    value: "2"
+}, {
+    type:"*"
+    value: "*"
+}, {
+    type:"Number",
+    value: "256"
+}, {
+    type:"EOF"
+}];
+</code></pre><p>每个产生式对应着一个函数，例如：根据产生式，我们的AdditiveExpression需要处理三种情况：</p><pre><code class="language-BNF">&lt;AdditiveExpression&gt; ::= 
+    &lt;MultiplicativeExpression&gt;
+    |&lt;AdditiveExpression&gt;&lt;+&gt;&lt;MultiplicativeExpression&gt;
+    |&lt;AdditiveExpression&gt;&lt;-&gt;&lt;MultiplicativeExpression&gt;
+</code></pre><p>那么AddititveExpression中就要写三个if分支，来处理三种情况。</p><p>AdditiveExpression的写法是根传入的节点，利用产生式合成新的节点</p><pre><code class="language-JavaScript">function AdditiveExpression(source){
+    if(source[0].type === "MultiplicativeExpression") {
+        let node = {
+            type:"AdditiveExpression",
+            children:[source[0]]
+        }
+        source[0] = node;
+        return node;
+    } 
+    if(source[0].type === "AdditiveExpression" &amp;&amp; source[1].type === "+") {
+        let node = {
+            type:"AdditiveExpression",
+            operator:"+",
+            children:[source.shift(), source.shift(), MultiplicativeExpression(source)]
+        }
+        source.unshift(node);
+    }
+    if(source[0].type === "AdditiveExpression" &amp;&amp; source[1].type === "-") {
+        let node = {
+            type:"AdditiveExpression",
+            operator:"-",
+            children:[source.shift(), source.shift(), MultiplicativeExpression(source)]
+        }
+        source.unshift(node);
+    }
+}
+</code></pre><p>那么下一步我们就把解析好的token传给我们的顶层处理函数Expression。</p><pre><code>Expression(tokens);
+</code></pre><p>接下来，我们看Expression该怎么处理它。</p><p>我们Expression收到第一个token，是个Number，这个时候，Expression就傻了，这是因为产生式只告诉我们，收到了 AdditiveExpression 怎么办。</p><p>这个时候，我们就需要对产生式的首项层层展开，根据所有可能性调用相应的处理函数，这个过程在编译原理中称为求“closure”。</p><pre><code class="language-JavaScript">function Expression(source){
+    if(source[0].type === "AdditiveExpression" &amp;&amp; source[1] &amp;&amp; source[1].type === "EOF" ) {
+        let node = {
+            type:"Expression",
+            children:[source.shift(), source.shift()]
+        }
+        source.unshift(node);
+        return node;
+    }
+    AdditiveExpression(source);
+    return Expression(source);
+}
+function AdditiveExpression(source){
+    if(source[0].type === "MultiplicativeExpression") {
+        let node = {
+            type:"AdditiveExpression",
+            children:[source[0]]
+        }
+        source[0] = node;
+        return AdditiveExpression(source);
+    } 
+    if(source[0].type === "AdditiveExpression" &amp;&amp; source[1] &amp;&amp; source[1].type === "+") {
+        let node = {
+            type:"AdditiveExpression",
+            operator:"+",
+            children:[]
+        }
+        node.children.push(source.shift());
+        node.children.push(source.shift());
+        MultiplicativeExpression(source);
+        node.children.push(source.shift());
+        source.unshift(node);
+        return AdditiveExpression(source);
+    }
+    if(source[0].type === "AdditiveExpression" &amp;&amp; source[1] &amp;&amp; source[1].type === "-") {
+        let node = {
+            type:"AdditiveExpression",
+            operator:"-",
+            children:[]
+        }
+        node.children.push(source.shift());
+        node.children.push(source.shift());
+        MultiplicativeExpression(source);
+        node.children.push(source.shift());
+        source.unshift(node);
+        return AdditiveExpression(source);
+    }
+    if(source[0].type === "AdditiveExpression")
+        return source[0];
+    MultiplicativeExpression(source);
+    return AdditiveExpression(source);
+}
+function MultiplicativeExpression(source){
+    if(source[0].type === "Number") {
+        let node = {
+            type:"MultiplicativeExpression",
+            children:[source[0]]
+        }
+        source[0] = node;
+        return MultiplicativeExpression(source);
+    } 
+    if(source[0].type === "MultiplicativeExpression" &amp;&amp; source[1] &amp;&amp; source[1].type === "*") {
+        let node = {
+            type:"MultiplicativeExpression",
+            operator:"*",
+            children:[]
+        }
+        node.children.push(source.shift());
+        node.children.push(source.shift());
+        node.children.push(source.shift());
+        source.unshift(node);
+        return MultiplicativeExpression(source);
+    }
+    if(source[0].type === "MultiplicativeExpression"&amp;&amp; source[1] &amp;&amp; source[1].type === "/") {
+        let node = {
+            type:"MultiplicativeExpression",
+            operator:"/",
+            children:[]
+        }
+        node.children.push(source.shift());
+        node.children.push(source.shift());
+        node.children.push(source.shift());
+        source.unshift(node);
+        return MultiplicativeExpression(source);
+    }
+    if(source[0].type === "MultiplicativeExpression")
+        return source[0];
+
+    return MultiplicativeExpression(source);
+};
+
+var source = [{
+    type:"Number",
+    value: "3"
+}, {
+    type:"*",
+    value: "*"
+}, {
+    type:"Number",
+    value: "300"
+}, {
+    type:"+",
+    value: "+"
+}, {
+    type:"Number",
+    value: "2"
+}, {
+    type:"*",
+    value: "*"
+}, {
+    type:"Number",
+    value: "256"
+}, {
+    type:"EOF"
+}];
+var ast = Expression(source);
+
+console.log(ast);
+</code></pre><h2>解释执行</h2><p>得到了AST之后，最困难的一步我们已经解决了。这里我们就不对这颗树做任何的优化和精简了，那么接下来，直接进入执行阶段。我们只需要对这个树做遍历操作执行即可。</p><p>我们根据不同的节点类型和其它信息，写if分别处理即可：</p><pre><code class="language-JavaScript">
+function evaluate(node) {
+    if(node.type === "Expression") {
+        return evaluate(node.children[0])
+    }
+    if(node.type === "AdditiveExpression") {
+        if(node.operator === '-') {
+            return evaluate(node.children[0]) - evaluate(node.children[2]);
+        }
+        if(node.operator === '+') {
+            return evaluate(node.children[0]) + evaluate(node.children[2]);
+        }
+        return evaluate(node.children[0])
+    }
+    if(node.type === "MultiplicativeExpression") {
+        if(node.operator === '*') {
+            return evaluate(node.children[0]) * evaluate(node.children[2]);
+        }
+        if(node.operator === '/') {
+            return evaluate(node.children[0]) / evaluate(node.children[2]);
+        }
+        return evaluate(node.children[0])
+    }
+    if(node.type === "Number") {
+        return Number(node.value);
+    }
+}
+</code></pre><h2>总结</h2><p>在这个小实验中，我们通过一个小实验学习了编译原理的基本知识，小实验的目的是帮助你理解JavaScript课程中涉及到的编译原理基本概念，它离真正的编译原理学习还有很大的差距。</p><p>通过实验，我们了解了产生式、词法分析、语法分析和解释执行的过程。</p><p>最后留给你一些挑战，你可以根据自己的水平选择：</p><ul>
+<li>补全emmitToken，使得我们的代码能完整工作起来。</li>
+<li>为四则运算加入小数。</li>
+<li>引入负数。</li>
+<li>添加括号功能。</li>
+</ul><p>欢迎写好的同学留言给我。</p><p><img src="https://static001.geekbang.org/resource/image/7c/b1/7ca7c24e92d25bde2e8609ed5386b5b1.jpg" alt=""></p>
+                    </div>
+                </div>
+                <div data-v-87ffcada="" class="article-comments"><h2 data-v-87ffcada=""><span
+                        data-v-87ffcada="">精选留言</span></h2>
+                    <ul data-v-87ffcada="">
+
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/35/d0/540d42d8.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">阿成</span>
+                                </div>
+                                <div class="bd">* 以前我只大概了解一般的做法是消除文法中的左递归，这一课让我知道原来还可以通过“层层展开”去处理。<br>* 词法分析我尝试了正则的方式<br>* 括号的处理费了些时间，这里我是修改了文法（感觉我的 Expression 产生式[在源码注释里]怪怪的，希望 winter 老师有时间的话可以指点一下），另一种做法是，先把中缀表达式变成前缀表达式<br>* 学习一些编译原理的知识还是很有必要也很有趣的，可以去写一些webpack的loader啊，插件啊，vscode的插件等等<br>https:&#47;&#47;github.com&#47;aimergenge&#47;arithmetic-executor<br></div>
+                                <span class="time">2019-03-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/14/f8/3b/a338f925.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">一条不会挣扎的咸鱼🐟</span>
+                                </div>
+                                <div class="bd">想问下老师有没有推荐的国外论坛|YouTube作者|个人博客<br></div>
+                                <span class="time">2019-03-21</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoLw2qjwoaVCDq8BqCcXOibyTG3rxiaJlDy2lt62IkiaDrrHeVwq4Pe8RpBbYJTIiadyicZ7InBCLCjJtQ/132" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Bojack</span>
+                                </div>
+                                <div class="bd">实现了小数与负数的编译器 https:&#47;&#47;gist.github.com&#47;OPY-bbt&#47;8ee387122550326f60592b94b7908d19<br></div>
+                                <span class="time">2019-03-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/1f/86/eaa4229f.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">leslee</span>
+                                </div>
+                                <div class="bd">BNF 那里有没有详细一点的资料呢 或者有没有更加通俗的写法？ 看不懂了……<br></div>
+                                <span class="time">2019-03-22</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/bd/ac/95cf60ea.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Huayra</span>
+                                </div>
+                                <div class="bd">硬啃龙书，对编程语言的理解更上一层楼<br></div>
+                                <span class="time">2019-03-21</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/14/f6/a1/debef255.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">爱的神</span>
+                                </div>
+                                <div class="bd">大三正在学习编译原理，目前仅能看懂词法分析那些，后面还不能看懂。补全了emmitToken函数。<br>var tokens = []<br>emmitToken(type，value){<br>   tokens.push({<br>      type :  type，<br>      value:  value<br>   })<br>}<br>不知道对不对🤔<br></div>
+                                <span class="time">2019-03-27</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/10/25/f8/4a6062b1.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">疯二中</span>
+                                </div>
+                                <div class="bd">涨知识了，BNF和LL真是精妙<br></div>
+                                <span class="time">2019-03-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="http://thirdwx.qlogo.cn/mmopen/vi_32/EJZoM46wR6QqTeibhPZsO5wJTeUia4RndGicWfDZLw153WibjsnJXqEtGZICxAa8icb36pDkficTic3FViaySd1z9HmQBw/132" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">翰弟</span>
+                                </div>
+                                <div class="bd">日拱一卒<br></div>
+                                <span class="time">2019-03-22</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/c7/dc/9408c8c2.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">ban</span>
+                                </div>
+                                <div class="bd">老师，做后端的感觉越到后面越看不到，请问该怎么做，求解<br></div>
+                                <span class="time">2019-03-21</span>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

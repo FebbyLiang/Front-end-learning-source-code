@@ -1,0 +1,298 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>16 | JavaScript执行（一）：Promise里的代码为什么比setTimeout先执行？</title>
+    <style type="text/css">
+        html{color:#333;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;text-rendering:optimizelegibility;font-family:Helvetica Neue,PingFang SC,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif}html.borderbox *,html.borderbox :after,html.borderbox :before{box-sizing:border-box}article,aside,blockquote,body,button,code,dd,details,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hr,input,legend,li,menu,nav,ol,p,pre,section,td,textarea,th,ul{margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,menu,nav,section{display:block}audio,canvas,video{display:inline-block}body,button,input,select,textarea{font:300 1em/1.8 PingFang SC,Lantinghei SC,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,Helvetica,sans-serif}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}blockquote{position:relative;color:#999;font-weight:400;border-left:1px solid #1abc9c;padding-left:1em;margin:1em 3em 1em 2em}@media only screen and (max-width:640px){blockquote{margin:1em 0}}abbr,acronym{border-bottom:1px dotted;font-variant:normal}abbr{cursor:help}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}ol,ul{list-style:none}caption,th{text-align:left}q:after,q:before{content:""}sub,sup{font-size:75%;line-height:0;position:relative}:root sub,:root sup{vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a{color:#1abc9c}a:hover{text-decoration:underline}.typo a{border-bottom:1px solid #1abc9c}.typo a:hover{border-bottom-color:#555;color:#555}.typo a:hover,a,ins{text-decoration:none}.typo-u,u{text-decoration:underline}mark{background:#fffdd1;border-bottom:1px solid #ffedce;padding:2px;margin:0 5px}code,pre,pre tt{font-family:Courier,Courier New,monospace}pre{background:hsla(0,0%,97%,.7);border:1px solid #ddd;padding:1em 1.5em;display:block;-webkit-overflow-scrolling:touch}hr{border:none;border-bottom:1px solid #cfcfcf;margin-bottom:.8em;height:10px}.typo-small,figcaption,small{font-size:.9em;color:#888}b,strong{font-weight:700;color:#000}[draggable]{cursor:move}.clearfix:after,.clearfix:before{content:"";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.textwrap,.textwrap td,.textwrap th{word-wrap:break-word;word-break:break-all}.textwrap-table{table-layout:fixed}.serif{font-family:Palatino,Optima,Georgia,serif}.typo-dl,.typo-form,.typo-hr,.typo-ol,.typo-p,.typo-pre,.typo-table,.typo-ul,.typo dl,.typo form,.typo hr,.typo ol,.typo p,.typo pre,.typo table,.typo ul,blockquote{margin-bottom:1rem}h1,h2,h3,h4,h5,h6{font-family:PingFang SC,Helvetica Neue,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif;color:#000;line-height:1.35}.typo-h1,.typo-h2,.typo-h3,.typo-h4,.typo-h5,.typo-h6,.typo h1,.typo h2,.typo h3,.typo h4,.typo h5,.typo h6{margin-top:1.2em;margin-bottom:.6em;line-height:1.35}.typo-h1,.typo h1{font-size:2em}.typo-h2,.typo h2{font-size:1.8em}.typo-h3,.typo h3{font-size:1.6em}.typo-h4,.typo h4{font-size:1.4em}.typo-h5,.typo-h6,.typo h5,.typo h6{font-size:1.2em}.typo-ul,.typo ul{margin-left:1.3em;list-style:disc}.typo-ol,.typo ol{list-style:decimal;margin-left:1.9em}.typo-ol ol,.typo-ol ul,.typo-ul ol,.typo-ul ul,.typo li ol,.typo li ul{margin-bottom:.8em;margin-left:2em}.typo-ol ul,.typo-ul ul,.typo li ul{list-style:circle}.typo-table td,.typo-table th,.typo table caption,.typo table td,.typo table th{border:1px solid #ddd;padding:.5em 1em;color:#666}.typo-table th,.typo table th{background:#fbfbfb}.typo-table thead th,.typo table thead th{background:hsla(0,0%,95%,.7)}.typo table caption{border-bottom:none}.typo-input,.typo-textarea{-webkit-appearance:none;border-radius:0}.typo-em,.typo em,caption,legend{color:#000;font-weight:inherit}.typo-em{position:relative}.typo-em:after{position:absolute;top:.65em;left:0;width:100%;overflow:hidden;white-space:nowrap;content:"\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB"}.typo img{max-width:100%}.common-content{font-weight:400;color:#353535;line-height:1.75rem;white-space:normal;word-break:normal;font-size:1rem}.common-content img{display:block;max-width:100%;background-color:#eee}.common-content audio,.common-content video{width:100%;background-color:#eee}.common-content center,.common-content font{margin-top:1rem;display:inline-block}.common-content center{width:100%}.common-content pre{margin-top:1rem;padding-left:0;padding-right:0;position:relative;overflow:hidden}.common-content pre code{font-size:.8rem;font-family:Consolas,Liberation Mono,Menlo,monospace,Courier;display:block;width:100%;box-sizing:border-box;padding-left:1rem;padding-right:1rem;overflow-x:auto}.common-content hr{border:none;margin-top:1.5rem;margin-bottom:1.5rem;border-top:1px solid #f5f5f5;height:1px;background:none}.common-content b,.common-content h1,.common-content h2,.common-content h3,.common-content h4,.common-content h5,.common-content strong{font-weight:700}.common-content h1,.common-content h2{font-size:1.125rem;margin-bottom:.45rem}.common-content h3,.common-content h4,.common-content h5{font-size:1rem;margin-bottom:.45rem}.common-content p{font-weight:400;color:#353535;margin-top:.15rem}.common-content .orange{color:#ff5a05}.common-content .reference{font-size:1rem;color:#888}.custom-rich-content h1{margin-top:0;font-weight:400;font-size:15.25px;border-bottom:1px solid #eee;line-height:2.8}.custom-rich-content li,.custom-rich-content p{font-size:14px;color:#888;line-height:1.6}table.hljs-ln{margin-bottom:0;border-spacing:0;border-collapse:collapse}table.hljs-ln,table.hljs-ln tbody,table.hljs-ln td,table.hljs-ln tr{box-sizing:border-box}table.hljs-ln td{padding:0;border:0}table.hljs-ln td.hljs-ln-numbers{min-width:15px;color:rgba(27,31,35,.3);text-align:right;white-space:nowrap;cursor:pointer;user-select:none}table.hljs-ln td.hljs-ln-code,table.hljs-ln td.hljs-ln-numbers{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px;line-height:20px;vertical-align:top}table.hljs-ln td.hljs-ln-code{position:relative;padding-right:10px;padding-left:10px;overflow:visible;color:#24292e;word-wrap:normal;white-space:pre}video::-webkit-media-controls{overflow:hidden!important}video::-webkit-media-controls-enclosure{width:calc(100% + 32px);margin-left:auto}.button-cancel{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel,.button-primary{-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary{color:#fff;background-color:#ff5a05;border-radius:3px}@font-face{font-family:iconfont;src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot);src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.woff) format("woff"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.ttf) format("truetype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.svg#iconfont) format("svg")}@font-face{font-family:player-font;src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot);src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.woff) format("woff"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.ttf) format("truetype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.svg#player-font) format("svg")}.iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-webkit-text-stroke-width:.2px;-moz-osx-font-smoothing:grayscale}html{background:#fff;min-height:100%;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{width:100%}body.fixed{overflow:hidden;position:fixed;width:100vw;height:100vh}i{font-style:normal}a{word-wrap:break-word;-webkit-tap-highlight-color:rgba(0,0,0,0)}a:hover{text-decoration:none}.fade-enter-active,.fade-leave-active{transition:opacity .3s}.fade-enter,.fade-leave-to{opacity:0}.MathJax,.MathJax_CHTML,.MathJax_MathContainer,.MathJax_MathML,.MathJax_PHTML,.MathJax_PlainSource,.MathJax_SVG{outline:0}.ios-app-switch .js-audit{display:none}._loading_wrap_{position:fixed;width:100vw;height:100vh;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999}._loading_div_class_,._loading_wrap_{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center}._loading_div_class_{word-wrap:break-word;padding:.5rem .75rem;text-align:center;z-index:9999;font-size:.6rem;max-width:60%;color:#fff;border-radius:.25rem;-ms-flex-direction:column;flex-direction:column}._loading_div_class_ .message{color:#353535;font-size:16px;line-height:3}.spinner{animation:circle-rotator 1.4s linear infinite}.spinner *{line-height:0;box-sizing:border-box}@keyframes circle-rotator{0%{transform:rotate(0deg)}to{transform:rotate(270deg)}}.path{stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:circle-dash 1.4s ease-in-out infinite,circle-colors 5.6s ease-in-out infinite}@keyframes circle-colors{0%{stroke:#ff5a05}to{stroke:#ff5a05}}@keyframes circle-dash{0%{stroke-dashoffset:187}50%{stroke-dashoffset:46.75;transform:rotate(135deg)}to{stroke-dashoffset:187;transform:rotate(450deg)}}.confirm-box-wrapper,.confirm-box-wrapper .mask{position:absolute;top:0;left:0;right:0;bottom:0}.confirm-box-wrapper .mask{background:rgba(0,0,0,.6)}.confirm-box-wrapper .confirm-box{position:fixed;top:50%;left:50%;width:267px;background:#fff;transform:translate(-50%,-50%);border-radius:7px}.confirm-box-wrapper .confirm-box .head{margin:0 18px;font-size:18px;text-align:center;line-height:65px;border-bottom:1px solid #d9d9d9}.confirm-box-wrapper .confirm-box .body{padding:18px;padding-bottom:0;color:#353535;font-size:12.5px;max-height:150px;overflow:auto}.confirm-box-wrapper .confirm-box .foot{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;padding:18px}.confirm-box-wrapper .confirm-box .foot .button-cancel{border:1px solid #d9d9d9}.hljs{display:block;overflow-x:auto;padding:.5em;color:#333;background:#f8f8f8}.hljs-comment,.hljs-quote{color:#998;font-style:italic}.hljs-keyword,.hljs-selector-tag,.hljs-subst{color:#333;font-weight:700}.hljs-literal,.hljs-number,.hljs-tag .hljs-attr,.hljs-template-variable,.hljs-variable{color:teal}.hljs-doctag,.hljs-string{color:#d14}.hljs-section,.hljs-selector-id,.hljs-title{color:#900;font-weight:700}.hljs-subst{font-weight:400}.hljs-class .hljs-title,.hljs-type{color:#458;font-weight:700}.hljs-attribute,.hljs-name,.hljs-tag{color:navy;font-weight:400}.hljs-link,.hljs-regexp{color:#009926}.hljs-bullet,.hljs-symbol{color:#990073}.hljs-built_in,.hljs-builtin-name{color:#0086b3}.hljs-meta{color:#999;font-weight:700}.hljs-deletion{background:#fdd}.hljs-addition{background:#dfd}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+        .button-cancel[data-v-87ffcada]{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel[data-v-87ffcada],.button-primary[data-v-87ffcada]{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary[data-v-87ffcada]{color:#fff;background-color:#ff5a05;border-radius:3px}.pd[data-v-87ffcada]{padding-left:1.375rem;padding-right:1.375rem}.article[data-v-87ffcada]{max-width:70rem;margin:0 auto}.article .article-unavailable[data-v-87ffcada]{color:#fa8919;font-size:15px;font-weight:600;line-height:24px;border-radius:5px;padding:12px;background-color:#f6f7fb;margin-top:20px}.article .article-unavailable .iconfont[data-v-87ffcada]{font-size:12px}.article .main[data-v-87ffcada]{padding:1.25rem 0;margin-bottom:52px}.article-title[data-v-87ffcada]{color:#353535;font-weight:400;line-height:1.65rem;font-size:1.34375rem}.article-info[data-v-87ffcada]{color:#888;font-size:.9375rem;margin-top:1.0625rem}.article-content[data-v-87ffcada]{margin-top:1.0625rem}.article-content.android video[data-v-87ffcada]::-webkit-media-controls-fullscreen-button{display:none}.copyright[data-v-87ffcada]{color:#b2b2b2;padding-bottom:20px;margin-top:20px;font-size:13px}.audio-player[data-v-87ffcada]{width:100%;margin:20px 0}.to-comment[data-v-87ffcada]{overflow:hidden;padding-top:10px;margin-bottom:-30px}.to-comment a.button-primary[data-v-87ffcada]{float:right;height:20px;font-size:12px;line-height:20px;padding:4px 8px;cursor:pointer}.article-comments[data-v-87ffcada]{margin-top:2rem}.article-comments h2[data-v-87ffcada]{text-align:center;color:#888;position:relative;z-index:1;margin-bottom:1rem}.article-comments h2[data-v-87ffcada]:before{border-top:1px dotted #888;content:"";position:absolute;top:56%;left:0;width:100%;z-index:-1}.article-comments h2 span[data-v-87ffcada]{font-size:15.25px;font-weight:400;padding:0 1rem;background:#fff;display:inline-block}.article-sub-bottom[data-v-87ffcada]{z-index:10;cursor:pointer}.switch-btns[data-v-87ffcada]{height:76px;cursor:pointer;padding-top:24px;padding-bottom:24px;border-bottom:10px solid #f6f7fb;position:relative}.switch-btns[data-v-87ffcada]:before{content:" ";height:1px;background:#e8e8e8;position:absolute;top:0;left:0;-webkit-box-sizing:border-box;box-sizing:border-box;left:1.375rem;right:1.375rem}.switch-btns .btn[data-v-87ffcada]{height:38px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.switch-btns .btn .tag[data-v-87ffcada]{-webkit-box-flex:0;-ms-flex:0 0 62px;flex:0 0 62px;text-align:center;color:#888;font-size:14px;border-radius:10px;height:22px;line-height:22px;background:#f6f7fb;font-weight:400}.switch-btns .btn .txt[data-v-87ffcada]{margin-left:10px;-webkit-box-flex:1;-ms-flex:1 1 auto;flex:1 1 auto;color:#888;font-size:15px;height:22px;line-height:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}@media (max-width:769px){.article .breadcrumb[data-v-87ffcada]{padding-top:10px;padding-bottom:10px}}
+        .comment-item{list-style-position:inside;width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;margin-bottom:1rem}.comment-item a{border-bottom:none}.comment-item .avatar{width:2.625rem;height:2.625rem;-ms-flex-negative:0;flex-shrink:0;border-radius:50%}.comment-item .info{margin-left:.5rem;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1}.comment-item .info .hd{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .username{color:#888;font-size:15.25px;font-weight:400;line-height:1.2}.comment-item .info .hd .control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .control .btn-share{color:#888;font-size:.75rem;margin-right:1rem}.comment-item .info .hd .control .btn-praise{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:15.25px;text-decoration:none}.comment-item .info .hd .control .btn-praise i{color:#888;display:inline-block;font-size:.75rem;margin-right:.3rem;margin-top:-.01rem}.comment-item .info .hd .control .btn-praise i.on,.comment-item .info .hd .control .btn-praise span{color:#ff5a05}.comment-item .info .bd{color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all;line-height:1.6}.comment-item .info .time{color:#888;font-size:9px;line-height:1}.comment-item .info .reply .reply-hd{font-size:15.25px}.comment-item .info .reply .reply-hd span{margin-left:-12px;color:#888;font-weight:400}.comment-item .info .reply .reply-hd i{color:#ff5a05;font-size:15.25px}.comment-item .info .reply .reply-content{background:#f6f7fb;padding:18px;border-radius:10px;color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all}.comment-item .info .reply .reply-time{color:#888;font-size:9px}
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div data-v-87ffcada="" class="article" id="watermark">
+
+        <div data-v-87ffcada="" class="main main-app">
+            <h1 data-v-87ffcada="" class="article-title pd">
+               16 | JavaScript执行（一）：Promise里的代码为什么比setTimeout先执行？
+            </h1>
+            <hr>
+            <div data-v-87ffcada="" class="article-content typo common-content pd">
+                <img data-v-87ffcada="" src="https://static001.geekbang.org/resource/image/bb/21/bb38fb7c1073eaee1755f81131f11d21.jpg">
+
+
+                <div data-v-87ffcada="" id="article-content" class="">
+                    <div class="text">
+                        <p>你好，我是winter。这一部分我们来讲一讲JavaScript的执行。</p><p>首先我们考虑一下，如果我们是浏览器或者Node的开发者，我们该如何使用JavaScript引擎。</p><p>当拿到一段JavaScript代码时，浏览器或者Node环境首先要做的就是；传递给JavaScript引擎，并且要求它去执行。</p><p>然而，执行JavaScript并非一锤子买卖，宿主环境当遇到一些事件时，会继续把一段代码传递给JavaScript引擎去执行，此外，我们可能还会提供API给JavaScript引擎，比如setTimeout这样的API，它会允许JavaScript在特定的时机执行。</p><p>所以，我们首先应该形成一个感性的认知：一个JavaScript引擎会常驻于内存中，它等待着我们（宿主）把JavaScript代码或者函数传递给它执行。</p><p>在ES3和更早的版本中，JavaScript本身还没有异步执行代码的能力，这也就意味着，宿主环境传递给JavaScript引擎一段代码，引擎就把代码直接顺次执行了，这个任务也就是宿主发起的任务。</p><p>但是，在ES5之后，JavaScript引入了Promise，这样，不需要浏览器的安排，JavaScript引擎本身也可以发起任务了。</p><!-- [[[read_end]]] --><p>由于我们这里主要讲JavaScript语言，那么采纳JSC引擎的术语，我们把宿主发起的任务称为宏观任务，把JavaScript引擎发起的任务称为微观任务。</p><h2>宏观和微观任务</h2><p>JavaScript引擎等待宿主环境分配宏观任务，在操作系统中，通常等待的行为都是一个事件循环，所以在Node术语中，也会把这个部分称为事件循环。</p><p>不过，术语本身并非我们需要重点讨论的内容，我们在这里把重点放在事件循环的原理上。在底层的C/C++代码中，这个事件循环是一个跑在独立线程中的循环，我们用伪代码来表示，大概是这样的：</p><pre><code class="language-C">while(TRUE) {
+    r = wait();
+    execute(r);
+}
+</code></pre><p>我们可以看到，整个循环做的事情基本上就是反复“等待-执行”。当然，实际的代码中并没有这么简单，还有要判断循环是否结束、宏观任务队列等逻辑，这里为了方便你理解，我就把这些都省略掉了。</p><p>这里每次的执行过程，其实都是一个宏观任务。我们可以大概理解：宏观任务的队列就相当于事件循环。</p><p>在宏观任务中，JavaScript的Promise还会产生异步代码，JavaScript必须保证这些异步代码在一个宏观任务中完成，因此，每个宏观任务中又包含了一个微观任务队列：</p><p><img src="https://static001.geekbang.org/resource/image/cf/b9/cfc5ed217f2de784e7d35f7bb3ea7fb9.png" alt=""></p><p>有了宏观任务和微观任务机制，我们就可以实现JS引擎级和宿主级的任务了，例如：Promise永远在队列尾部添加微观任务。setTimeout等宿主API，则会添加宏观任务。</p><p>接下来，我们来详细介绍一下Promise。</p><h2>Promise</h2><p>Promise是JavaScript语言提供的一种标准化的异步管理方式，它的总体思想是，需要进行io、等待或者其它异步操作的函数，不返回真实结果，而返回一个“承诺”，函数的调用方可以在合适的时机，选择等待这个承诺兑现（通过Promise的then方法的回调）。</p><p>Promise的基本用法示例如下：</p><pre><code>    function sleep(duration) {
+        return new Promise(function(resolve, reject) {
+            setTimeout(resolve,duration);
+        })
+    }
+    sleep(1000).then( ()=&gt; console.log(&quot;finished&quot;));
+</code></pre><p>这段代码定义了一个函数sleep，它的作用是等候传入参数指定的时长。</p><p>Promise的then回调是一个异步的执行过程，下面我们就来研究一下Promise函数中的执行顺序，我们来看一段代码示例：</p><pre><code>    var r = new Promise(function(resolve, reject){
+        console.log(&quot;a&quot;);
+        resolve()
+    });
+    r.then(() =&gt; console.log(&quot;c&quot;));
+    console.log(&quot;b&quot;)
+</code></pre><p>我们执行这段代码后，注意输出的顺序是 a b c。在进入console.log(“b”) 之前，毫无疑问 r 已经得到了resolve，但是Promise的resolve始终是异步操作，所以c无法出现在b之前。</p><p>接下来我们试试跟setTimeout混用的Promise。</p><p>在这段代码中，我设置了两段互不相干的异步操作：通过setTimeout执行console.log(“d”)，通过Promise执行console.log(“c”)</p><pre><code>    var r = new Promise(function(resolve, reject){
+        console.log(&quot;a&quot;);
+        resolve()
+    });
+    setTimeout(()=&gt;console.log(&quot;d&quot;), 0)
+    r.then(() =&gt; console.log(&quot;c&quot;));
+    console.log(&quot;b&quot;)
+</code></pre><p>我们发现，不论代码顺序如何，d必定发生在c之后，因为Promise产生的是JavaScript引擎内部的微任务，而setTimeout是浏览器API，它产生宏任务。</p><p>为了理解微任务始终先于宏任务，我们设计一个实验：执行一个耗时1秒的Promise。</p><pre><code>    setTimeout(()=&gt;console.log(&quot;d&quot;), 0)
+    var r1 = new Promise(function(resolve, reject){
+        resolve()
+    });
+    r.then(() =&gt; { 
+        var begin = Date.now();
+        while(Date.now() - begin &lt; 1000);
+        console.log(&quot;c1&quot;) 
+        new Promise(function(resolve, reject){
+            resolve()
+        }).then(() =&gt; console.log(&quot;c2&quot;))
+    });
+</code></pre><p>这里我们强制了1秒的执行耗时，这样，我们可以确保任务c2是在d之后被添加到任务队列。</p><p>我们可以看到，即使耗时一秒的c1执行完毕，再enque的c2，仍然先于d执行了，这很好地解释了微任务优先的原理。</p><p>通过一系列的实验，我们可以总结一下如何分析异步执行的顺序：</p><ul>
+<li>首先我们分析有多少个宏任务；</li>
+<li>在每个宏任务中，分析有多少个微任务；</li>
+<li>根据调用次序，确定宏任务中的微任务执行次序；</li>
+<li>根据宏任务的触发规则和调用次序，确定宏任务的执行次序；</li>
+<li>确定整个顺序。</li>
+</ul><p>我们再来看一个稍微复杂的例子：</p><pre><code>    function sleep(duration) {
+        return new Promise(function(resolve, reject) {
+            console.log(&quot;b&quot;);
+            setTimeout(resolve,duration);
+        })
+    }
+    console.log(&quot;a&quot;);
+    sleep(5000).then(()=&gt;console.log(&quot;c&quot;));
+</code></pre><p>这是一段非常常用的封装方法，利用Promise把setTimeout封装成可以用于异步的函数。</p><p>我们首先来看，setTimeout把整个代码分割成了2个宏观任务，这里不论是5秒还是0秒，都是一样的。</p><p>第一个宏观任务中，包含了先后同步执行的 console.log(“a”); 和 console.log(“b”);。</p><p>setTimeout后，第二个宏观任务执行调用了resolve，然后then中的代码异步得到执行，所以调用了console.log(“c”)，最终输出的顺序才是： a b c。</p><p>Promise是JavaScript中的一个定义，但是实际编写代码时，我们可以发现，它似乎并不比回调的方式书写更简单，但是从ES6开始，我们有了async/await，这个语法改进跟Promise配合，能够有效地改善代码结构。</p><h2>新特性：async/await</h2><p>async/await是ES2016新加入的特性，它提供了用for、if等代码结构来编写异步的方式。它的运行时基础是Promise，面对这种比较新的特性，我们先来看一下基本用法。</p><p>async函数必定返回Promise，我们把所有返回Promise的函数都可以认为是异步函数。</p><p>async函数是一种特殊语法，特征是在function关键字之前加上async关键字，这样，就定义了一个async函数，我们可以在其中使用await来等待一个Promise。</p><pre><code>function sleep(duration) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(resolve,duration);
+    })
+}
+async function foo(){
+    console.log(&quot;a&quot;)
+    await sleep(2000)
+    console.log(&quot;b&quot;)
+}
+</code></pre><p>这段代码利用了我们之前定义的sleep函数。在异步函数foo中，我们调用sleep。</p><p>async函数强大之处在于，它是可以嵌套的。我们在定义了一批原子操作的情况下，可以利用async函数组合出新的async函数。</p><pre><code>function sleep(duration) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(resolve,duration);
+    })
+}
+async function foo(name){
+    await sleep(2000)
+    console.log(name)
+}
+async function foo2(){
+    await foo(&quot;a&quot;);
+    await foo(&quot;b&quot;);
+}
+</code></pre><p>这里foo2用await调用了两次异步函数foo，可以看到，如果我们把sleep这样的异步操作放入某一个框架或者库中，使用者几乎不需要了解Promise的概念即可进行异步编程了。</p><p>此外，generator/iterator也常常被跟异步一起来讲，我们必须说明 generator/iterator 并非异步代码，只是在缺少async/await的时候，一些框架（最著名的要数co）使用这样的特性来模拟async/await。</p><p>但是generator并非被设计成实现异步，所以有了async/await之后，generator/iterator来模拟异步的方法应该被废弃。</p><h2>结语</h2><p>在今天的文章里，我们学习了JavaScript执行部分的知识，首先我们学习了JavaScript的宏观任务和微观任务相关的知识。我们把宿主发起的任务称为宏观任务，把JavaScript引擎发起的任务称为微观任务。许多的微观任务的队列组成了宏观任务。</p><p>除此之外，我们还展开介绍了用Promise来添加微观任务的方式，并且介绍了async/await这个语法的改进。</p><p>最后，留给你一个小练习：我们现在要实现一个红绿灯，把一个圆形div按照绿色3秒，黄色1秒，红色2秒循环改变背景色，你会怎样编写这个代码呢？欢迎你留言讨论。</p><p><img src="https://static001.geekbang.org/resource/image/7c/b1/7ca7c24e92d25bde2e8609ed5386b5b1.jpg" alt=""></p>
+                    </div>
+                </div>
+                <div data-v-87ffcada="" class="article-comments"><h2 data-v-87ffcada=""><span
+                        data-v-87ffcada="">精选留言</span></h2>
+                    <ul data-v-87ffcada="">
+
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTL5ewmOZBuWBYkJt1U9sVvtjBsiaPOSg5nxydh8xiaoricxqxicq8zOOQWQNiaSOaBhDIMibbU39xaduAUA/132" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">无羡</span>
+                                </div>
+                                <div class="bd">const lightEle = document.getElementById(&#39;traffic-light&#39;);<br>function changeTrafficLight(color, duration) {<br>  return new Promise(function(resolve, reject) {<br>    lightEle.style.background = color;<br>    setTimeout(resolve, duration);<br>  })<br>}<br><br>async function trafficScheduler() {<br>  await changeTrafficLight(&#39;green&#39;, 3000);<br>  await changeTrafficLight(&#39;yellow&#39;, 1000);<br>  await changeTrafficLight(&#39;red&#39;, 2000);<br>  trafficScheduler();<br>}<br><br>trafficScheduler();<br></div>
+                                <span class="time">2019-02-23</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/04/b3/3f0b69f9.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">杨学茂</span>
+                                </div>
+                                <div class="bd">function sleep(duration){<br>    return new Promise(function(resolve){<br>        setTimeout(resolve, duration);<br>    })<br>}<br>async function changeColor(duration,color){<br>    document.getElementById(&quot;traffic-light&quot;).style.background = color;<br>    await sleep(duration);<br><br>}<br>async function main(){<br>    while(true){<br>        await changeColor(3000,&quot;green&quot;);<br>        await changeColor(1000, &quot;yellow&quot;);<br>        await changeColor(2000, &quot;red&quot;);<br>    }<br>}<br>main()<br></div>
+                                <span class="time">2019-02-23</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/4d/fd/0aa0e39f.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">许童童</span>
+                                </div>
+                                <div class="bd">async function controlLoop () {<br>  await changeColor(&#39;green&#39;, 3000)<br>  await changeColor(&#39;yellow&#39;, 1000)<br>  await changeColor(&#39;red&#39;, 2000)<br>  await controlLoop()<br>}<br><br>async function changeColor (color, time) {<br>  console.log(color + &#39; begin&#39;)<br>  return new Promise((resolve) =&gt; {<br>    setTimeout(() =&gt; {<br>      console.log(color + &#39; end&#39;)<br>      resolve()<br>    }, time)<br>  })<br>}<br><br>controlLoop()<br></div>
+                                <span class="time">2019-02-23</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/13/0a/de/8c4810b0.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">NeverEver</span>
+                                </div>
+                                <div class="bd">我想到的方法是用Recursion。写一个函数setColor，需要一个参数color，函数里首先把div的backgroundColor设置color，然后用setTimeout来设置下一个颜色，根据传入的color相应更改时间和颜色即可<br></div>
+                                <span class="time">2019-02-22</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/1f/ec/dede5cb2.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">clannad-</span>
+                                </div>
+                                <div class="bd">  const box = document.querySelector(&#39;.box&#39;);<br>  const oSpan = box.getElementsByTagName(&#39;span&#39;)[0];<br>  const arr = [&#39;green&#39;,&#39;yellow&#39;,&#39;red&#39;];<br>  oSpan.style.backgroundColor = arr[0];<br><br>  function changeColor (num,time){<br>    oSpan.style.backgroundColor = arr[num];<br>    return new Promise((resolve,reject) =&gt; {<br>      setTimeout(resolve,time )<br>    })<br>  }<br>  async function eventFn(){<br>      await changeColor(0,3*1000)<br>      await changeColor(1,1*1000)<br>      await changeColor(2,2*1000)<br>      eventFn()<br>  }<br>  eventFn()<br></div>
+                                <span class="time">2019-02-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/35/d0/540d42d8.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">阿成</span>
+                                </div>
+                                <div class="bd">略简陋...<br>&#47;&#47; sleep,green,red,yellow already defined<br>async function main () {<br>  while (true) {<br>    green()<br>    await sleep(3)<br>    yellow ()<br>    await sleep (1)<br>    red()<br>    await sleep(2)<br>  }<br>}<br>main()<br></div>
+                                <span class="time">2019-02-22</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/12/cb/82/d01f40b4.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">deiphi</span>
+                                </div>
+                                <div class="bd">&#47;&#47; 比较原始的写法<br>function color () { <br>	console.log(&#39;green&#39;);<br>	<br>	setTimeout(() =&gt; {<br>			console.log(&#39;yellow&#39;);<br>			<br>			setTimeout(() =&gt; {<br>				console.log(&#39;red&#39;);<br>				<br>				setTimeout(color, 2000);<br>			}, 1000)<br>	}, 3000);<br>}<br>color();<br></div>
+                                <span class="time">2019-02-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">韩航</span>
+                                </div>
+                                <div class="bd">同步的代码和setTimeout都是宏任务？<br></div>
+                                <span class="time">2019-02-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/10/c6/28/c7deb785.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">hiahias崔才人~🐾</span>
+                                </div>
+                                <div class="bd">function main(duration,color){<br>			return new Promise(function(resolve,reject){<br>				setTimeout(resolve,duration)<br>			});<br>		}<br>		function changeColor(color){<br>			var lamp = document.getElementById(&#39;#lapm&#39;);<br>			lapm.style.backgroundColor = color;<br>		}<br><br>		async function change(){<br>			await main(3000).then(()=&gt;changeColor(&#39;yellow&#39;));<br>			await main(1000).then(()=&gt;changeColor(&#39;red&#39;));<br>			await main(2000).then(()=&gt;changeColor(&#39;green&#39;));<br>			return change();<br>		}<br>		change();<br>PS:执行耗时1秒的Promis 代码段第5行：应该是 r1.then(...)<br></div>
+                                <span class="time">2019-02-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/14/f7/d9/3014889f.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">周。。周非凡？？？</span>
+                                </div>
+                                <div class="bd">&#47;&#47; 另类的写法<br> var lightDiv = document.getElementById(&#39;light&#39;)<br>    function wait(seconds){<br>      return new Promise((resolve)=&gt;{<br>        setTimeout(resolve,seconds)<br>      })<br>    }<br><br>    function light(color, waitTime){<br>      this.color = color<br>      this.waitTime = waitTime<br>    }<br>    light.prototype.run = function(){<br>      lightDiv.style.backgroundColor = this.color<br>      return wait(this.waitTime).then(()=&gt;{<br>        return this.nextLight.run()<br>      })<br>    }<br><br>    let redLight = new light(&#39;red&#39;,2000)<br>    let yellowLight = new light(&#39;yellow&#39;,1000)<br>    let greenLight = new light(&#39;green&#39;,3000)<br><br>    redLight.nextLight = greenLight<br>    yellowLight.nextLight = redLight<br>    greenLight.nextLight = yellowLight<br><br>    redLight.run()<br></div>
+                                <span class="time">2019-02-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/17/1f/22f867d1.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Jurieo</span>
+                                </div>
+                                <div class="bd">哈哈，我自己思考的执行顺序是 同步-异步-回调，成功正确输出了老师你上面的各个代码的答案。<br></div>
+                                <span class="time">2019-02-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/12/c1/cc/6b6bbd41.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">周小成</span>
+                                </div>
+                                <div class="bd">讲的很通俗易懂，认识更清晰了。执行耗时1秒的Promise那里的代码有些小问题哦，r.then应该改成r1.then<br></div>
+                                <span class="time">2019-02-25</span>
+                                <div class="reply"> <div class="reply-hd"><span>作者回复</span></div> <p class="reply-content">谢谢你的提示，我们问问老师哈</p> <p class="reply-time">2019-02-25</p> </div>
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/42/e7/e5afadf7.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">风吹一个大耳东</span>
+                                </div>
+                                <div class="bd">function light(time, color) {<br>	return new Promise(function(resolve,reject) {<br>		setTimeout(()=&gt; {<br>			resolve();<br>			console.log(color)<br>		}, time)<br>    })<br>}<br><br>async function run() {<br>	await light(3000, &#39;green&#39;)<br>	await light(1000, &#39;red&#39;)<br>	await light(2000, &#39;yellow&#39;)<br>}<br><br>run()<br></div>
+                                <span class="time">2019-02-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/10/d4/f9/48da7701.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">达达</span>
+                                </div>
+                                <div class="bd">终于知道为什么要有宏任务和微任务得区分了<br></div>
+                                <span class="time">2019-02-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/18/3f/93e02812.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">xlm</span>
+                                </div>
+                                <div class="bd">async&#47;await的实现原理是Generator +Promise的语法糖😳 ？<br></div>
+                                <span class="time">2019-02-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/93/4a/de82f373.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">AICC</span>
+                                </div>
+                                <div class="bd">function sleep(duration) {<br>  return new Promise(function(resolve, reject) {<br>      setTimeout(resolve,duration);<br>  })<br>}<br>async function foo(duration,name){<br>  console.log(name)<br>  await sleep(duration)<br>}<br>async function foo2(){<br>  await foo(3000,&quot;绿&quot;);<br>  await foo(1000,&quot;黄&quot;);<br>  await foo(2000,&quot;红&quot;);<br>}<br><br>while(true) {<br>  foo2()<br>}<br></div>
+                                <span class="time">2019-02-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/4a/13/42e02b09.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">许吉中</span>
+                                </div>
+                                <div class="bd">async&#47;await函数属于宏观还是微观？<br></div>
+                                <span class="time">2019-02-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/12/de/3e/2e87843c.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">不曾潇洒</span>
+                                </div>
+                                <div class="bd">老师你好，看了这篇文章后受益匪浅，有个小问题:<br>在Promise段的最后一个例子中，最后一句代码:<br>sleep(5000).then(()=&gt;{console.log(&#39;c&#39;)})，<br>这里面的打印c是属于第一个宏任务还是属于setTime产生的第二个宏任务呢?<br></div>
+                                <span class="time">2019-02-23</span>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

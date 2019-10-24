@@ -1,0 +1,268 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>28 | JavaScript语法：到底要不要写分号呢？</title>
+    <style type="text/css">
+        html{color:#333;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;text-rendering:optimizelegibility;font-family:Helvetica Neue,PingFang SC,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif}html.borderbox *,html.borderbox :after,html.borderbox :before{box-sizing:border-box}article,aside,blockquote,body,button,code,dd,details,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hr,input,legend,li,menu,nav,ol,p,pre,section,td,textarea,th,ul{margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,menu,nav,section{display:block}audio,canvas,video{display:inline-block}body,button,input,select,textarea{font:300 1em/1.8 PingFang SC,Lantinghei SC,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,Helvetica,sans-serif}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}blockquote{position:relative;color:#999;font-weight:400;border-left:1px solid #1abc9c;padding-left:1em;margin:1em 3em 1em 2em}@media only screen and (max-width:640px){blockquote{margin:1em 0}}abbr,acronym{border-bottom:1px dotted;font-variant:normal}abbr{cursor:help}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}ol,ul{list-style:none}caption,th{text-align:left}q:after,q:before{content:""}sub,sup{font-size:75%;line-height:0;position:relative}:root sub,:root sup{vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a{color:#1abc9c}a:hover{text-decoration:underline}.typo a{border-bottom:1px solid #1abc9c}.typo a:hover{border-bottom-color:#555;color:#555}.typo a:hover,a,ins{text-decoration:none}.typo-u,u{text-decoration:underline}mark{background:#fffdd1;border-bottom:1px solid #ffedce;padding:2px;margin:0 5px}code,pre,pre tt{font-family:Courier,Courier New,monospace}pre{background:hsla(0,0%,97%,.7);border:1px solid #ddd;padding:1em 1.5em;display:block;-webkit-overflow-scrolling:touch}hr{border:none;border-bottom:1px solid #cfcfcf;margin-bottom:.8em;height:10px}.typo-small,figcaption,small{font-size:.9em;color:#888}b,strong{font-weight:700;color:#000}[draggable]{cursor:move}.clearfix:after,.clearfix:before{content:"";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.textwrap,.textwrap td,.textwrap th{word-wrap:break-word;word-break:break-all}.textwrap-table{table-layout:fixed}.serif{font-family:Palatino,Optima,Georgia,serif}.typo-dl,.typo-form,.typo-hr,.typo-ol,.typo-p,.typo-pre,.typo-table,.typo-ul,.typo dl,.typo form,.typo hr,.typo ol,.typo p,.typo pre,.typo table,.typo ul,blockquote{margin-bottom:1rem}h1,h2,h3,h4,h5,h6{font-family:PingFang SC,Helvetica Neue,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif;color:#000;line-height:1.35}.typo-h1,.typo-h2,.typo-h3,.typo-h4,.typo-h5,.typo-h6,.typo h1,.typo h2,.typo h3,.typo h4,.typo h5,.typo h6{margin-top:1.2em;margin-bottom:.6em;line-height:1.35}.typo-h1,.typo h1{font-size:2em}.typo-h2,.typo h2{font-size:1.8em}.typo-h3,.typo h3{font-size:1.6em}.typo-h4,.typo h4{font-size:1.4em}.typo-h5,.typo-h6,.typo h5,.typo h6{font-size:1.2em}.typo-ul,.typo ul{margin-left:1.3em;list-style:disc}.typo-ol,.typo ol{list-style:decimal;margin-left:1.9em}.typo-ol ol,.typo-ol ul,.typo-ul ol,.typo-ul ul,.typo li ol,.typo li ul{margin-bottom:.8em;margin-left:2em}.typo-ol ul,.typo-ul ul,.typo li ul{list-style:circle}.typo-table td,.typo-table th,.typo table caption,.typo table td,.typo table th{border:1px solid #ddd;padding:.5em 1em;color:#666}.typo-table th,.typo table th{background:#fbfbfb}.typo-table thead th,.typo table thead th{background:hsla(0,0%,95%,.7)}.typo table caption{border-bottom:none}.typo-input,.typo-textarea{-webkit-appearance:none;border-radius:0}.typo-em,.typo em,caption,legend{color:#000;font-weight:inherit}.typo-em{position:relative}.typo-em:after{position:absolute;top:.65em;left:0;width:100%;overflow:hidden;white-space:nowrap;content:"\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB"}.typo img{max-width:100%}.common-content{font-weight:400;color:#353535;line-height:1.75rem;white-space:normal;word-break:normal;font-size:1rem}.common-content img{display:block;max-width:100%;background-color:#eee}.common-content audio,.common-content video{width:100%;background-color:#eee}.common-content center,.common-content font{margin-top:1rem;display:inline-block}.common-content center{width:100%}.common-content pre{margin-top:1rem;padding-left:0;padding-right:0;position:relative;overflow:hidden}.common-content pre code{font-size:.8rem;font-family:Consolas,Liberation Mono,Menlo,monospace,Courier;display:block;width:100%;box-sizing:border-box;padding-left:1rem;padding-right:1rem;overflow-x:auto}.common-content hr{border:none;margin-top:1.5rem;margin-bottom:1.5rem;border-top:1px solid #f5f5f5;height:1px;background:none}.common-content b,.common-content h1,.common-content h2,.common-content h3,.common-content h4,.common-content h5,.common-content strong{font-weight:700}.common-content h1,.common-content h2{font-size:1.125rem;margin-bottom:.45rem}.common-content h3,.common-content h4,.common-content h5{font-size:1rem;margin-bottom:.45rem}.common-content p{font-weight:400;color:#353535;margin-top:.15rem}.common-content .orange{color:#ff5a05}.common-content .reference{font-size:1rem;color:#888}.custom-rich-content h1{margin-top:0;font-weight:400;font-size:15.25px;border-bottom:1px solid #eee;line-height:2.8}.custom-rich-content li,.custom-rich-content p{font-size:14px;color:#888;line-height:1.6}table.hljs-ln{margin-bottom:0;border-spacing:0;border-collapse:collapse}table.hljs-ln,table.hljs-ln tbody,table.hljs-ln td,table.hljs-ln tr{box-sizing:border-box}table.hljs-ln td{padding:0;border:0}table.hljs-ln td.hljs-ln-numbers{min-width:15px;color:rgba(27,31,35,.3);text-align:right;white-space:nowrap;cursor:pointer;user-select:none}table.hljs-ln td.hljs-ln-code,table.hljs-ln td.hljs-ln-numbers{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px;line-height:20px;vertical-align:top}table.hljs-ln td.hljs-ln-code{position:relative;padding-right:10px;padding-left:10px;overflow:visible;color:#24292e;word-wrap:normal;white-space:pre}video::-webkit-media-controls{overflow:hidden!important}video::-webkit-media-controls-enclosure{width:calc(100% + 32px);margin-left:auto}.button-cancel{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel,.button-primary{-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary{color:#fff;background-color:#ff5a05;border-radius:3px}@font-face{font-family:iconfont;src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot);src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.woff) format("woff"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.ttf) format("truetype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.svg#iconfont) format("svg")}@font-face{font-family:player-font;src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot);src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.woff) format("woff"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.ttf) format("truetype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.svg#player-font) format("svg")}.iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-webkit-text-stroke-width:.2px;-moz-osx-font-smoothing:grayscale}html{background:#fff;min-height:100%;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{width:100%}body.fixed{overflow:hidden;position:fixed;width:100vw;height:100vh}i{font-style:normal}a{word-wrap:break-word;-webkit-tap-highlight-color:rgba(0,0,0,0)}a:hover{text-decoration:none}.fade-enter-active,.fade-leave-active{transition:opacity .3s}.fade-enter,.fade-leave-to{opacity:0}.MathJax,.MathJax_CHTML,.MathJax_MathContainer,.MathJax_MathML,.MathJax_PHTML,.MathJax_PlainSource,.MathJax_SVG{outline:0}.ios-app-switch .js-audit{display:none}._loading_wrap_{position:fixed;width:100vw;height:100vh;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999}._loading_div_class_,._loading_wrap_{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center}._loading_div_class_{word-wrap:break-word;padding:.5rem .75rem;text-align:center;z-index:9999;font-size:.6rem;max-width:60%;color:#fff;border-radius:.25rem;-ms-flex-direction:column;flex-direction:column}._loading_div_class_ .message{color:#353535;font-size:16px;line-height:3}.spinner{animation:circle-rotator 1.4s linear infinite}.spinner *{line-height:0;box-sizing:border-box}@keyframes circle-rotator{0%{transform:rotate(0deg)}to{transform:rotate(270deg)}}.path{stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:circle-dash 1.4s ease-in-out infinite,circle-colors 5.6s ease-in-out infinite}@keyframes circle-colors{0%{stroke:#ff5a05}to{stroke:#ff5a05}}@keyframes circle-dash{0%{stroke-dashoffset:187}50%{stroke-dashoffset:46.75;transform:rotate(135deg)}to{stroke-dashoffset:187;transform:rotate(450deg)}}.confirm-box-wrapper,.confirm-box-wrapper .mask{position:absolute;top:0;left:0;right:0;bottom:0}.confirm-box-wrapper .mask{background:rgba(0,0,0,.6)}.confirm-box-wrapper .confirm-box{position:fixed;top:50%;left:50%;width:267px;background:#fff;transform:translate(-50%,-50%);border-radius:7px}.confirm-box-wrapper .confirm-box .head{margin:0 18px;font-size:18px;text-align:center;line-height:65px;border-bottom:1px solid #d9d9d9}.confirm-box-wrapper .confirm-box .body{padding:18px;padding-bottom:0;color:#353535;font-size:12.5px;max-height:150px;overflow:auto}.confirm-box-wrapper .confirm-box .foot{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;padding:18px}.confirm-box-wrapper .confirm-box .foot .button-cancel{border:1px solid #d9d9d9}.hljs{display:block;overflow-x:auto;padding:.5em;color:#333;background:#f8f8f8}.hljs-comment,.hljs-quote{color:#998;font-style:italic}.hljs-keyword,.hljs-selector-tag,.hljs-subst{color:#333;font-weight:700}.hljs-literal,.hljs-number,.hljs-tag .hljs-attr,.hljs-template-variable,.hljs-variable{color:teal}.hljs-doctag,.hljs-string{color:#d14}.hljs-section,.hljs-selector-id,.hljs-title{color:#900;font-weight:700}.hljs-subst{font-weight:400}.hljs-class .hljs-title,.hljs-type{color:#458;font-weight:700}.hljs-attribute,.hljs-name,.hljs-tag{color:navy;font-weight:400}.hljs-link,.hljs-regexp{color:#009926}.hljs-bullet,.hljs-symbol{color:#990073}.hljs-built_in,.hljs-builtin-name{color:#0086b3}.hljs-meta{color:#999;font-weight:700}.hljs-deletion{background:#fdd}.hljs-addition{background:#dfd}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+        .button-cancel[data-v-87ffcada]{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel[data-v-87ffcada],.button-primary[data-v-87ffcada]{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary[data-v-87ffcada]{color:#fff;background-color:#ff5a05;border-radius:3px}.pd[data-v-87ffcada]{padding-left:1.375rem;padding-right:1.375rem}.article[data-v-87ffcada]{max-width:70rem;margin:0 auto}.article .article-unavailable[data-v-87ffcada]{color:#fa8919;font-size:15px;font-weight:600;line-height:24px;border-radius:5px;padding:12px;background-color:#f6f7fb;margin-top:20px}.article .article-unavailable .iconfont[data-v-87ffcada]{font-size:12px}.article .main[data-v-87ffcada]{padding:1.25rem 0;margin-bottom:52px}.article-title[data-v-87ffcada]{color:#353535;font-weight:bold;line-height:1.65rem;font-size:1.34375rem}.article-info[data-v-87ffcada]{color:#888;font-size:.9375rem;margin-top:1.0625rem}.article-content[data-v-87ffcada]{margin-top:1.0625rem}.article-content.android video[data-v-87ffcada]::-webkit-media-controls-fullscreen-button{display:none}.copyright[data-v-87ffcada]{color:#b2b2b2;padding-bottom:20px;margin-top:20px;font-size:13px}.audio-player[data-v-87ffcada]{width:100%;margin:20px 0}.to-comment[data-v-87ffcada]{overflow:hidden;padding-top:10px;margin-bottom:-30px}.to-comment a.button-primary[data-v-87ffcada]{float:right;height:20px;font-size:12px;line-height:20px;padding:4px 8px;cursor:pointer}.article-comments[data-v-87ffcada]{margin-top:2rem}.article-comments h2[data-v-87ffcada]{text-align:center;color:#888;position:relative;z-index:1;margin-bottom:1rem}.article-comments h2[data-v-87ffcada]:before{border-top:1px dotted #888;content:"";position:absolute;top:56%;left:0;width:100%;z-index:-1}.article-comments h2 span[data-v-87ffcada]{font-size:15.25px;font-weight:400;padding:0 1rem;background:#fff;display:inline-block}.article-sub-bottom[data-v-87ffcada]{z-index:10;cursor:pointer}.switch-btns[data-v-87ffcada]{height:76px;cursor:pointer;padding-top:24px;padding-bottom:24px;border-bottom:10px solid #f6f7fb;position:relative}.switch-btns[data-v-87ffcada]:before{content:" ";height:1px;background:#e8e8e8;position:absolute;top:0;left:0;-webkit-box-sizing:border-box;box-sizing:border-box;left:1.375rem;right:1.375rem}.switch-btns .btn[data-v-87ffcada]{height:38px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.switch-btns .btn .tag[data-v-87ffcada]{-webkit-box-flex:0;-ms-flex:0 0 62px;flex:0 0 62px;text-align:center;color:#888;font-size:14px;border-radius:10px;height:22px;line-height:22px;background:#f6f7fb;font-weight:400}.switch-btns .btn .txt[data-v-87ffcada]{margin-left:10px;-webkit-box-flex:1;-ms-flex:1 1 auto;flex:1 1 auto;color:#888;font-size:15px;height:22px;line-height:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}@media (max-width:769px){.article .breadcrumb[data-v-87ffcada]{padding-top:10px;padding-bottom:10px}}
+        .comment-item{list-style-position:inside;width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;margin-bottom:1rem}.comment-item a{border-bottom:none}.comment-item .avatar{width:2.625rem;height:2.625rem;-ms-flex-negative:0;flex-shrink:0;border-radius:50%}.comment-item .info{margin-left:.5rem;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1}.comment-item .info .hd{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .username{color:#888;font-size:15.25px;font-weight:400;line-height:1.2}.comment-item .info .hd .control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .control .btn-share{color:#888;font-size:.75rem;margin-right:1rem}.comment-item .info .hd .control .btn-praise{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:15.25px;text-decoration:none}.comment-item .info .hd .control .btn-praise i{color:#888;display:inline-block;font-size:.75rem;margin-right:.3rem;margin-top:-.01rem}.comment-item .info .hd .control .btn-praise i.on,.comment-item .info .hd .control .btn-praise span{color:#ff5a05}.comment-item .info .bd{color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all;line-height:1.6}.comment-item .info .time{color:#888;font-size:9px;line-height:1}.comment-item .info .reply .reply-hd{font-size:15.25px}.comment-item .info .reply .reply-hd span{margin-left:-12px;color:#888;font-weight:400}.comment-item .info .reply .reply-hd i{color:#ff5a05;font-size:15.25px}.comment-item .info .reply .reply-content{background:#f6f7fb;padding:18px;border-radius:10px;color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all}.comment-item .info .reply .reply-time{color:#888;font-size:9px}
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div data-v-87ffcada="" class="article" id="watermark">
+
+        <div data-v-87ffcada="" class="main main-app">
+            <h1 data-v-87ffcada="" class="article-title pd">
+               28 | JavaScript语法：到底要不要写分号呢？
+            </h1>
+            <hr>
+            <div data-v-87ffcada="" class="article-content typo common-content pd">
+                <img data-v-87ffcada="" src="https://static001.geekbang.org/resource/image/61/3a/61fa339e781c1e6e6668f94dd6ccc53a.jpg">
+
+
+                <div data-v-87ffcada="" id="article-content" class="">
+                    <div class="text">
+                        <p>你好，我是winter。</p><p>在我们介绍JavaScript语法的全局结构之前，我们先要探讨一个语言风格问题：究竟要不要写分号。</p><p>这是一个非常经典的口水问题，“加分号”党和“不写分号”党之间的战争，可谓是经久不息。</p><p>实际上，行尾使用分号的风格来自于Java，也来自于C语言和C++，这一设计最初是为了降低编译器的工作负担。</p><p>但是，从今天的角度来看，行尾使用分号其实是一种语法噪音，恰好JavaScript语言又提供了相对可用的分号自动补全规则，所以，很多JavaScript的程序员都是倾向于不写分号。</p><p>这里要特意说一点，在今天的文章中，我并不希望去售卖自己的观点（其实我是属于“加分号”党），而是希望比较中立地给你讲清楚相关的知识，让你具备足够的判断力。</p><p>我们首先来了解一下自动插入分号的规则。</p><h2>自动插入分号规则</h2><p>自动插入分号规则其实独立于所有的语法产生式定义，它的规则说起来非常简单，只有三条。</p><ul>
+<li>要有换行符，且下一个符号是不符合语法的，那么就尝试插入分号。</li>
+<li>有换行符，且语法中规定此处不能有换行符，那么就自动插入分号。</li>
+<li>源代码结束处，不能形成完整的脚本或者模块结构，那么就自动插入分号。</li>
+</ul><p>这样描述是比较难以理解的，我们一起看一些实际的例子进行分析：</p><!-- [[[read_end]]] --><pre><code class="language-JavaScript">let a = 1
+void function(a){
+    console.log(a);
+}(a);
+</code></pre><p>在这个例子中，第一行的结尾处有换行符，接下来void关键字接在1之后是不合法的，这命中了我们的第一条规则，因此会在void前插入换行符。</p><pre><code class="language-JavaScript">var a = 1, b = 1, c = 1;
+a
+++
+b
+++
+c
+</code></pre><p>这也是个著名的例子，我们看第二行的a之后，有换行符，后面遇到了++运算符，a后面跟++是合法的语法，但是我们看看JavaScript标准定义中，有[no LineTerminator here]这个字样，这是一个语法定义中的规则，你可以感受一下这个规则的内容（下一小节，我会给你详细介绍no LineTerminator here ）：</p><pre><code>UpdateExpression[Yield, Await]:
+    LeftHandSideExpression[?Yield, ?Await]
+    LeftHandSideExpression[?Yield, ?Await][no LineTerminator here]++
+    LeftHandSideExpression[?Yield, ?Await][no LineTerminator here]--
+    ++UnaryExpression[?Yield, ?Await]
+    --UnaryExpression[?Yield, ?Await]
+</code></pre><p>于是，这里a的后面就要插入一个分号了。所以这段代码最终的结果，b和c都变成了2，而a还是1。</p><pre><code class="language-JavaScript">(function(a){
+    console.log(a);
+})()
+(function(a){
+    console.log(a);
+})()
+</code></pre><p>这个例子是比较有实际价值的例子，这里两个function调用的写法被称作IIFE（立即执行的函数表达式），是个常见技巧。</p><p>这段代码意图上显然是形成两个IIFE。</p><p>我们来看第三行结束的位置，JavaScript引擎会认为函数返回的可能是个函数，那么，在后面再跟括号形成函数调用就是合理的，因此这里不会自动插入分号。</p><p>这是一些鼓励不写分号的编码风格会要求大家写IIFE时必须在行首加分号的原因。</p><pre><code class="language-JavaScript">function f(){
+    return/*
+        This is a return value.
+    */1;
+}
+f();
+</code></pre><p>在这个例子中，return和1被用注释分隔开了。</p><p>根据JavaScript自动插入分号规则，<strong>带换行符的注释也被认为是有换行符</strong>，而恰好的是，return也有[no LineTerminator here]规则的要求。所以这里会自动插入分号，f执行的返回值是undefined。</p><h2>no LineTerminator here 规则</h2><p>好了，到这里我们已经讲清楚了分号自动插入的规则，但是我们要想彻底掌握分号的奥秘，就必须要对JavaScript的语法定义做一些数据挖掘工作。</p><p>no LineTerminator here规则表示它所在的结构中的这一位置不能插入换行符。</p><p>自动插入分号规则的第二条：有换行符，且语法中规定此处不能有换行符，那么就自动插入分号。跟no LineTerminator here规则强相关，那么我们就找出JavaScript语法定义中的这些规则。</p><p><img src="https://static001.geekbang.org/resource/image/c3/ad/c3ffbc89e049ad1901d4108c8ad88aad.jpg" alt=""></p><p>为了方便你理解，我把产生式换成了实际的代码。</p><p>下面一段代码展示了，带标签的continue语句，不能在continue后插入换行。</p><pre><code class="language-JavaScript">outer:for(var j = 0; j &lt; 10; j++)
+    for(var i = 0; i &lt; j; i++)
+        continue /*no LineTerminator here*/ outter
+</code></pre><p>break跟continue是一样的，break后也不能插入换行：</p><pre><code class="language-JavaScript">outer:for(var j = 0; j &lt; 10; j++)
+    for(var i = 0; i &lt; j; i++)
+        break /*no LineTerminator here*/ outter
+</code></pre><p>我们前面已经提到过return和后自增、后自减运算符。</p><pre><code class="language-JavaScript">function f(){
+    return /*no LineTerminator here*/1;
+}
+</code></pre><pre><code class="language-JavaScript">i/*no LineTerminator here*/++
+i/*no LineTerminator here*/--
+</code></pre><p>以及，throw和Exception之间也不能插入换行符：</p><pre><code class="language-JavaScript">throw/*no LineTerminator here*/new Exception("error")
+</code></pre><p>凡是async关键字，后面都不能插入换行符：</p><pre><code class="language-JavaScript">async/*no LineTerminator here*/function f(){
+
+}
+const f = async/*no LineTerminator here*/x =&gt; x*x
+</code></pre><p>箭头函数的箭头前，也不能插入换行</p><pre><code class="language-JavaScript">const f = x/*no LineTerminator here*/=&gt; x*x
+</code></pre><p>yield之后，不能插入换行</p><pre><code class="language-JavaScript">function *g(){
+    var i = 0;
+    while(true)
+        yield/*no LineTerminator here*/i++;
+}
+</code></pre><p>到这里，我已经整理了所有标准中的no LineTerminator here规则，实际上，no LineTerminator here规则的存在，多数情况是为了保证自动插入分号行为是符合预期的，但是令人遗憾的是，JavaScript在设计的最初，遗漏了一些重要的情况，所以有一些不符合预期的情况出现，需要我们格外注意。</p><h2>不写分号需要注意的情况</h2><p>下面我们来看几种不写分号容易造成错误的情况，你可以稍微注意一下，避免发生同样的问题。</p><h3>以括号开头的语句</h3><p>我们在前面的案例中，已经展示了一种情况，那就是以括号开头的语句：</p><pre><code class="language-JavaScript">(function(a){
+    console.log(a);
+})()/*这里没有被自动插入分号*/
+(function(a){
+    console.log(a);
+})()
+</code></pre><p>这段代码看似两个独立执行的函数表达式，但是其实第三组括号被理解为传参，导致抛出错误。</p><h3>以数组开头的语句</h3><p>除了括号，以数组开头的语句也十分危险：</p><pre><code class="language-JavaScript">var a = [[]]/*这里没有被自动插入分号*/
+[3, 2, 1, 0].forEach(e =&gt; console.log(e))
+</code></pre><p>这段代码本意是一个变量a赋值，然后对一个数组执行forEach，但是因为没有自动插入分号，被理解为下标运算符和逗号表达式，我这个例子展示的情况，甚至不会抛出错误，这对于代码排查问题是个噩梦。</p><h3>以正则表达式开头的语句</h3><p>正则表达式开头的语句也值得你去多注意一下。我们来看这个例子。</p><pre><code class="language-JavaScript">var x = 1, g = {test:()=&gt;0}, b = 1/*这里没有被自动插入分号*/
+/(a)/g.test("abc")
+console.log(RegExp.$1)
+</code></pre><p>这段代码本意是声明三个变量，然后测试一个字符串中是否含有字母a，但是因为没有自动插入分号，正则的第一个斜杠被理解成了除号，后面的意思就都变了。</p><p>注意，我构造的这个例子跟上面的例子一样，同样不会抛错，凡是这一类情况，都非常致命。</p><h3>以Template开头的语句</h3><p>以Template开头的语句比较少见，但是跟正则配合时，仍然不是不可能出现：</p><pre><code class="language-JavaScript">
+var f = function(){
+  return "";
+}
+var g = f/*这里没有被自动插入分号*/
+`Template`.match(/(a)/);
+console.log(RegExp.$1)
+</code></pre><p>这段代码本意是声明函数f，然后赋值给g，再测试Template中是否含有字母a。但是因为没有自动插入分号，函数f被认为跟Template一体的，进而被莫名其妙地执行了一次。</p><h2>总结</h2><p>这一节课，我们讨论了要不要加分号的问题。</p><p>首先我们介绍了自动插入分号机制，又对JavaScript语法中的no line terminator规则做了个整理，最后，我挑选了几种情况，为你介绍了不写分号需要注意的一些常见的错误。</p><p>最后留给你一个问题，请找一些开源项目，看看它们的编码规范是否要求加分号，欢迎留言讨论。</p><p><img src="https://static001.geekbang.org/resource/image/7c/b1/7ca7c24e92d25bde2e8609ed5386b5b1.jpg" alt=""></p>
+                    </div>
+                </div>
+                <div data-v-87ffcada="" class="article-comments"><h2 data-v-87ffcada=""><span
+                        data-v-87ffcada="">精选留言</span></h2>
+                    <ul data-v-87ffcada="">
+
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/14/f9/bc/cbc0207b.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Scorpio</span>
+                                </div>
+                                <div class="bd">写了几年一直不写分号。。。等出了问题再说吧。。。我懒。。<br></div>
+                                <span class="time">2019-03-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Dylan-Tseng</span>
+                                </div>
+                                <div class="bd">个人觉得还是加分号比较好，至少能保证加上去之后今天老师说的问题都能够得到我们想要的答案。<br></div>
+                                <span class="time">2019-03-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/14/f8/f7/1150bedc.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">陆同春</span>
+                                </div>
+                                <div class="bd">react源码规范需要分号<br></div>
+                                <span class="time">2019-03-23</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/12/c8/eb/4e479446.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">老实人</span>
+                                </div>
+                                <div class="bd">采用eslint是不会写的，不采用会写上<br></div>
+                                <span class="time">2019-03-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/16/7a/aa/a90ec203.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">四叶草</span>
+                                </div>
+                                <div class="bd">启用了eslint检查都会要把分号去掉，这样编译后不是可能有问题？<br></div>
+                                <span class="time">2019-03-23</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/09/81/8a150358.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">一位不愿透漏姓名的肖师傅、</span>
+                                </div>
+                                <div class="bd">最后这个有点神奇， f``123`这样会执行是什么原理？<br></div>
+                                <span class="time">2019-03-28</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/13/17/a5/7a0cbb55.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">本末倒置っ</span>
+                                </div>
+                                <div class="bd">几年前，各种各样的书大致上都推荐你加分号。<br>几年前，曾经由于构建工具有一些问题，导致不加分号可能会出问题。<br>jquery依然留着分号，vue源码不用分号。<br><br>尤雨溪曾经在知乎说：真正会导致上下行解析出问题的 token 有 5 个：括号，方括号，正则开头的斜杠，加号，减号。我还从没见过实际代码中用正则、加号、减号作为行首的情况，所以总结下来就是一句话：一行开头是括号或者方括号的时候加上分号就可以了，其他时候全部不需要。<br>哦当然再加个反引号。<br><br>可是写分号已经习惯了，又何必花力气改习惯去掉它。不加只要不写出bug，也很好。<br>反正分号有和没有，对eslint fix来说，只是瞬间的事。。。<br></div>
+                                <span class="time">2019-03-27</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/11/b8/11/26838646.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">彧豪</span>
+                                </div>
+                                <div class="bd">另外我个人也是不写分号，然后使用的是双引号，诸位不写分号党，如果想要写上分号，用的eslint和vs code那么可以这么搞：<br>1. eslintrc中加入这条规则：&quot;semi&quot;: [&quot;error&quot;, &quot;always&quot;]<br>2. vsc中设置一下：&quot;eslint.autoFixOnSave&quot;: true<br>此时，你保存的时候，vsc会自动帮你在需要加分号的地方加上分号<br></div>
+                                <span class="time">2019-03-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/35/d0/540d42d8.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">阿成</span>
+                                </div>
+                                <div class="bd">我属于半路转成了“不写分号”党，不过 class fields 提案好像对 ASI 有影响... 有点慌<br></div>
+                                <span class="time">2019-03-26</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/14/fc/e6/2cff4a89.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">醉月</span>
+                                </div>
+                                <div class="bd">用了cli写vue以后就很少用分号了<br>以前学js写原生的时候强迫症一样写分号<br>这东西就是见仁见智<br>前端真的是娱乐圈，，<br>为个分号还能争起来。<br></div>
+                                <span class="time">2019-03-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/14/f9/bc/cbc0207b.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Scorpio</span>
+                                </div>
+                                <div class="bd">写了几年一直不写分号。。。等出了问题再说吧。。。我懒。。<br></div>
+                                <span class="time">2019-03-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/11/d1/97/3abdd9cd.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">stanny</span>
+                                </div>
+                                <div class="bd">antd源码有分号  两个空格缩进<br></div>
+                                <span class="time">2019-03-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/11/d1/97/3abdd9cd.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">stanny</span>
+                                </div>
+                                <div class="bd">koa源码有分号<br></div>
+                                <span class="time">2019-03-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">有铭</span>
+                                </div>
+                                <div class="bd">我记得这个问题，前年的时候有文章出来说认为js可以不写分号，但是去年，这个结论又被推翻了，又开始推荐有显式分号的编程风格<br></div>
+                                <span class="time">2019-03-24</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/29/db/be35274f.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">卡少</span>
+                                </div>
+                                <div class="bd">如果用eslint进行检查，带js压缩混淆编译的仓库，是否不加分号还是会出现本篇出现的问题？压缩混淆我个人理解是不会变原来js代码的执行流程的。<br></div>
+                                <span class="time">2019-03-23</span>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

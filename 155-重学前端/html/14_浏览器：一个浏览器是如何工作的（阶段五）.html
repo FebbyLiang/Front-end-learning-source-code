@@ -1,0 +1,181 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>14 | 浏览器：一个浏览器是如何工作的？（阶段五）</title>
+    <style type="text/css">
+        html{color:#333;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;text-rendering:optimizelegibility;font-family:Helvetica Neue,PingFang SC,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif}html.borderbox *,html.borderbox :after,html.borderbox :before{box-sizing:border-box}article,aside,blockquote,body,button,code,dd,details,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hr,input,legend,li,menu,nav,ol,p,pre,section,td,textarea,th,ul{margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,menu,nav,section{display:block}audio,canvas,video{display:inline-block}body,button,input,select,textarea{font:300 1em/1.8 PingFang SC,Lantinghei SC,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,Helvetica,sans-serif}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}blockquote{position:relative;color:#999;font-weight:400;border-left:1px solid #1abc9c;padding-left:1em;margin:1em 3em 1em 2em}@media only screen and (max-width:640px){blockquote{margin:1em 0}}abbr,acronym{border-bottom:1px dotted;font-variant:normal}abbr{cursor:help}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}ol,ul{list-style:none}caption,th{text-align:left}q:after,q:before{content:""}sub,sup{font-size:75%;line-height:0;position:relative}:root sub,:root sup{vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a{color:#1abc9c}a:hover{text-decoration:underline}.typo a{border-bottom:1px solid #1abc9c}.typo a:hover{border-bottom-color:#555;color:#555}.typo a:hover,a,ins{text-decoration:none}.typo-u,u{text-decoration:underline}mark{background:#fffdd1;border-bottom:1px solid #ffedce;padding:2px;margin:0 5px}code,pre,pre tt{font-family:Courier,Courier New,monospace}pre{background:hsla(0,0%,97%,.7);border:1px solid #ddd;padding:1em 1.5em;display:block;-webkit-overflow-scrolling:touch}hr{border:none;border-bottom:1px solid #cfcfcf;margin-bottom:.8em;height:10px}.typo-small,figcaption,small{font-size:.9em;color:#888}b,strong{font-weight:700;color:#000}[draggable]{cursor:move}.clearfix:after,.clearfix:before{content:"";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.textwrap,.textwrap td,.textwrap th{word-wrap:break-word;word-break:break-all}.textwrap-table{table-layout:fixed}.serif{font-family:Palatino,Optima,Georgia,serif}.typo-dl,.typo-form,.typo-hr,.typo-ol,.typo-p,.typo-pre,.typo-table,.typo-ul,.typo dl,.typo form,.typo hr,.typo ol,.typo p,.typo pre,.typo table,.typo ul,blockquote{margin-bottom:1rem}h1,h2,h3,h4,h5,h6{font-family:PingFang SC,Helvetica Neue,Verdana,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans-serif;color:#000;line-height:1.35}.typo-h1,.typo-h2,.typo-h3,.typo-h4,.typo-h5,.typo-h6,.typo h1,.typo h2,.typo h3,.typo h4,.typo h5,.typo h6{margin-top:1.2em;margin-bottom:.6em;line-height:1.35}.typo-h1,.typo h1{font-size:2em}.typo-h2,.typo h2{font-size:1.8em}.typo-h3,.typo h3{font-size:1.6em}.typo-h4,.typo h4{font-size:1.4em}.typo-h5,.typo-h6,.typo h5,.typo h6{font-size:1.2em}.typo-ul,.typo ul{margin-left:1.3em;list-style:disc}.typo-ol,.typo ol{list-style:decimal;margin-left:1.9em}.typo-ol ol,.typo-ol ul,.typo-ul ol,.typo-ul ul,.typo li ol,.typo li ul{margin-bottom:.8em;margin-left:2em}.typo-ol ul,.typo-ul ul,.typo li ul{list-style:circle}.typo-table td,.typo-table th,.typo table caption,.typo table td,.typo table th{border:1px solid #ddd;padding:.5em 1em;color:#666}.typo-table th,.typo table th{background:#fbfbfb}.typo-table thead th,.typo table thead th{background:hsla(0,0%,95%,.7)}.typo table caption{border-bottom:none}.typo-input,.typo-textarea{-webkit-appearance:none;border-radius:0}.typo-em,.typo em,caption,legend{color:#000;font-weight:inherit}.typo-em{position:relative}.typo-em:after{position:absolute;top:.65em;left:0;width:100%;overflow:hidden;white-space:nowrap;content:"\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB\30FB"}.typo img{max-width:100%}.common-content{font-weight:400;color:#353535;line-height:1.75rem;white-space:normal;word-break:normal;font-size:1rem}.common-content img{display:block;max-width:100%;background-color:#eee}.common-content audio,.common-content video{width:100%;background-color:#eee}.common-content center,.common-content font{margin-top:1rem;display:inline-block}.common-content center{width:100%}.common-content pre{margin-top:1rem;padding-left:0;padding-right:0;position:relative;overflow:hidden}.common-content pre code{font-size:.8rem;font-family:Consolas,Liberation Mono,Menlo,monospace,Courier;display:block;width:100%;box-sizing:border-box;padding-left:1rem;padding-right:1rem;overflow-x:auto}.common-content hr{border:none;margin-top:1.5rem;margin-bottom:1.5rem;border-top:1px solid #f5f5f5;height:1px;background:none}.common-content b,.common-content h1,.common-content h2,.common-content h3,.common-content h4,.common-content h5,.common-content strong{font-weight:700}.common-content h1,.common-content h2{font-size:1.125rem;margin-bottom:.45rem}.common-content h3,.common-content h4,.common-content h5{font-size:1rem;margin-bottom:.45rem}.common-content p{font-weight:400;color:#353535;margin-top:.15rem}.common-content .orange{color:#ff5a05}.common-content .reference{font-size:1rem;color:#888}.custom-rich-content h1{margin-top:0;font-weight:400;font-size:15.25px;border-bottom:1px solid #eee;line-height:2.8}.custom-rich-content li,.custom-rich-content p{font-size:14px;color:#888;line-height:1.6}table.hljs-ln{margin-bottom:0;border-spacing:0;border-collapse:collapse}table.hljs-ln,table.hljs-ln tbody,table.hljs-ln td,table.hljs-ln tr{box-sizing:border-box}table.hljs-ln td{padding:0;border:0}table.hljs-ln td.hljs-ln-numbers{min-width:15px;color:rgba(27,31,35,.3);text-align:right;white-space:nowrap;cursor:pointer;user-select:none}table.hljs-ln td.hljs-ln-code,table.hljs-ln td.hljs-ln-numbers{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px;line-height:20px;vertical-align:top}table.hljs-ln td.hljs-ln-code{position:relative;padding-right:10px;padding-left:10px;overflow:visible;color:#24292e;word-wrap:normal;white-space:pre}video::-webkit-media-controls{overflow:hidden!important}video::-webkit-media-controls-enclosure{width:calc(100% + 32px);margin-left:auto}.button-cancel{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel,.button-primary{-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary{color:#fff;background-color:#ff5a05;border-radius:3px}@font-face{font-family:iconfont;src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot);src:url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.woff) format("woff"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.ttf) format("truetype"),url(//at.alicdn.com/t/font_372689_bwwwtosxtzp.svg#iconfont) format("svg")}@font-face{font-family:player-font;src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot);src:url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.eot#iefix) format("embedded-opentype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.woff) format("woff"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.ttf) format("truetype"),url(//at.alicdn.com/t/font_509397_1cyjv4o90qiod2t9.svg#player-font) format("svg")}.iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-webkit-text-stroke-width:.2px;-moz-osx-font-smoothing:grayscale}html{background:#fff;min-height:100%;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{width:100%}body.fixed{overflow:hidden;position:fixed;width:100vw;height:100vh}i{font-style:normal}a{word-wrap:break-word;-webkit-tap-highlight-color:rgba(0,0,0,0)}a:hover{text-decoration:none}.fade-enter-active,.fade-leave-active{transition:opacity .3s}.fade-enter,.fade-leave-to{opacity:0}.MathJax,.MathJax_CHTML,.MathJax_MathContainer,.MathJax_MathML,.MathJax_PHTML,.MathJax_PlainSource,.MathJax_SVG{outline:0}.ios-app-switch .js-audit{display:none}._loading_wrap_{position:fixed;width:100vw;height:100vh;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999}._loading_div_class_,._loading_wrap_{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center}._loading_div_class_{word-wrap:break-word;padding:.5rem .75rem;text-align:center;z-index:9999;font-size:.6rem;max-width:60%;color:#fff;border-radius:.25rem;-ms-flex-direction:column;flex-direction:column}._loading_div_class_ .message{color:#353535;font-size:16px;line-height:3}.spinner{animation:circle-rotator 1.4s linear infinite}.spinner *{line-height:0;box-sizing:border-box}@keyframes circle-rotator{0%{transform:rotate(0deg)}to{transform:rotate(270deg)}}.path{stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:circle-dash 1.4s ease-in-out infinite,circle-colors 5.6s ease-in-out infinite}@keyframes circle-colors{0%{stroke:#ff5a05}to{stroke:#ff5a05}}@keyframes circle-dash{0%{stroke-dashoffset:187}50%{stroke-dashoffset:46.75;transform:rotate(135deg)}to{stroke-dashoffset:187;transform:rotate(450deg)}}.confirm-box-wrapper,.confirm-box-wrapper .mask{position:absolute;top:0;left:0;right:0;bottom:0}.confirm-box-wrapper .mask{background:rgba(0,0,0,.6)}.confirm-box-wrapper .confirm-box{position:fixed;top:50%;left:50%;width:267px;background:#fff;transform:translate(-50%,-50%);border-radius:7px}.confirm-box-wrapper .confirm-box .head{margin:0 18px;font-size:18px;text-align:center;line-height:65px;border-bottom:1px solid #d9d9d9}.confirm-box-wrapper .confirm-box .body{padding:18px;padding-bottom:0;color:#353535;font-size:12.5px;max-height:150px;overflow:auto}.confirm-box-wrapper .confirm-box .foot{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;padding:18px}.confirm-box-wrapper .confirm-box .foot .button-cancel{border:1px solid #d9d9d9}.hljs{display:block;overflow-x:auto;padding:.5em;color:#333;background:#f8f8f8}.hljs-comment,.hljs-quote{color:#998;font-style:italic}.hljs-keyword,.hljs-selector-tag,.hljs-subst{color:#333;font-weight:700}.hljs-literal,.hljs-number,.hljs-tag .hljs-attr,.hljs-template-variable,.hljs-variable{color:teal}.hljs-doctag,.hljs-string{color:#d14}.hljs-section,.hljs-selector-id,.hljs-title{color:#900;font-weight:700}.hljs-subst{font-weight:400}.hljs-class .hljs-title,.hljs-type{color:#458;font-weight:700}.hljs-attribute,.hljs-name,.hljs-tag{color:navy;font-weight:400}.hljs-link,.hljs-regexp{color:#009926}.hljs-bullet,.hljs-symbol{color:#990073}.hljs-built_in,.hljs-builtin-name{color:#0086b3}.hljs-meta{color:#999;font-weight:700}.hljs-deletion{background:#fdd}.hljs-addition{background:#dfd}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+        .button-cancel[data-v-87ffcada]{color:#888;border:1px solid #888;border-radius:3px;margin-right:12px}.button-cancel[data-v-87ffcada],.button-primary[data-v-87ffcada]{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;height:35px;display:inline-block;font-size:15px;text-align:center;line-height:36px}.button-primary[data-v-87ffcada]{color:#fff;background-color:#ff5a05;border-radius:3px}.pd[data-v-87ffcada]{padding-left:1.375rem;padding-right:1.375rem}.article[data-v-87ffcada]{max-width:70rem;margin:0 auto}.article .article-unavailable[data-v-87ffcada]{color:#fa8919;font-size:15px;font-weight:600;line-height:24px;border-radius:5px;padding:12px;background-color:#f6f7fb;margin-top:20px}.article .article-unavailable .iconfont[data-v-87ffcada]{font-size:12px}.article .main[data-v-87ffcada]{padding:1.25rem 0;margin-bottom:52px}.article-title[data-v-87ffcada]{color:#353535;font-weight:400;line-height:1.65rem;font-size:1.34375rem}.article-info[data-v-87ffcada]{color:#888;font-size:.9375rem;margin-top:1.0625rem}.article-content[data-v-87ffcada]{margin-top:1.0625rem}.article-content.android video[data-v-87ffcada]::-webkit-media-controls-fullscreen-button{display:none}.copyright[data-v-87ffcada]{color:#b2b2b2;padding-bottom:20px;margin-top:20px;font-size:13px}.audio-player[data-v-87ffcada]{width:100%;margin:20px 0}.to-comment[data-v-87ffcada]{overflow:hidden;padding-top:10px;margin-bottom:-30px}.to-comment a.button-primary[data-v-87ffcada]{float:right;height:20px;font-size:12px;line-height:20px;padding:4px 8px;cursor:pointer}.article-comments[data-v-87ffcada]{margin-top:2rem}.article-comments h2[data-v-87ffcada]{text-align:center;color:#888;position:relative;z-index:1;margin-bottom:1rem}.article-comments h2[data-v-87ffcada]:before{border-top:1px dotted #888;content:"";position:absolute;top:56%;left:0;width:100%;z-index:-1}.article-comments h2 span[data-v-87ffcada]{font-size:15.25px;font-weight:400;padding:0 1rem;background:#fff;display:inline-block}.article-sub-bottom[data-v-87ffcada]{z-index:10;cursor:pointer}.switch-btns[data-v-87ffcada]{height:76px;cursor:pointer;padding-top:24px;padding-bottom:24px;border-bottom:10px solid #f6f7fb;position:relative}.switch-btns[data-v-87ffcada]:before{content:" ";height:1px;background:#e8e8e8;position:absolute;top:0;left:0;-webkit-box-sizing:border-box;box-sizing:border-box;left:1.375rem;right:1.375rem}.switch-btns .btn[data-v-87ffcada]{height:38px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.switch-btns .btn .tag[data-v-87ffcada]{-webkit-box-flex:0;-ms-flex:0 0 62px;flex:0 0 62px;text-align:center;color:#888;font-size:14px;border-radius:10px;height:22px;line-height:22px;background:#f6f7fb;font-weight:400}.switch-btns .btn .txt[data-v-87ffcada]{margin-left:10px;-webkit-box-flex:1;-ms-flex:1 1 auto;flex:1 1 auto;color:#888;font-size:15px;height:22px;line-height:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}@media (max-width:769px){.article .breadcrumb[data-v-87ffcada]{padding-top:10px;padding-bottom:10px}}
+        .comment-item{list-style-position:inside;width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;margin-bottom:1rem}.comment-item a{border-bottom:none}.comment-item .avatar{width:2.625rem;height:2.625rem;-ms-flex-negative:0;flex-shrink:0;border-radius:50%}.comment-item .info{margin-left:.5rem;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1}.comment-item .info .hd{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .username{color:#888;font-size:15.25px;font-weight:400;line-height:1.2}.comment-item .info .hd .control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.comment-item .info .hd .control .btn-share{color:#888;font-size:.75rem;margin-right:1rem}.comment-item .info .hd .control .btn-praise{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:15.25px;text-decoration:none}.comment-item .info .hd .control .btn-praise i{color:#888;display:inline-block;font-size:.75rem;margin-right:.3rem;margin-top:-.01rem}.comment-item .info .hd .control .btn-praise i.on,.comment-item .info .hd .control .btn-praise span{color:#ff5a05}.comment-item .info .bd{color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all;line-height:1.6}.comment-item .info .time{color:#888;font-size:9px;line-height:1}.comment-item .info .reply .reply-hd{font-size:15.25px}.comment-item .info .reply .reply-hd span{margin-left:-12px;color:#888;font-weight:400}.comment-item .info .reply .reply-hd i{color:#ff5a05;font-size:15.25px}.comment-item .info .reply .reply-content{background:#f6f7fb;padding:18px;border-radius:10px;color:#353535;font-size:15.25px;font-weight:400;white-space:normal;word-break:break-all}.comment-item .info .reply .reply-time{color:#888;font-size:9px}
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div data-v-87ffcada="" class="article" id="watermark">
+
+        <div data-v-87ffcada="" class="main main-app">
+            <h1 data-v-87ffcada="" class="article-title pd">
+               14 | 浏览器：一个浏览器是如何工作的？（阶段五）
+            </h1>
+            <hr>
+            <div data-v-87ffcada="" class="article-content typo common-content pd">
+                <img data-v-87ffcada="" src="https://static001.geekbang.org/resource/image/b1/d6/b1b70d207fed37fd54c127f9667d1fd6.jpg">
+
+
+                <div data-v-87ffcada="" id="article-content" class="">
+                    <div class="text">
+                        <p>你好，我是winter。我们的浏览器系列已经进行到最后一篇。</p><p>在之前的几篇文章中，我们已经经历了把URL变成字符流，把字符流变成词（token）流，把词（token）流构造成DOM树，把不含样式信息的DOM树应用CSS规则，变成包含样式信息的DOM树，并且根据样式信息，计算了每个元素的位置和大小。</p><p>那么，我们最后的步骤，就是根据这些样式信息和大小信息，为每个元素在内存中渲染它的图形，并且把它绘制到对应的位置。</p><h2>渲染</h2><p>首先我们来谈谈渲染这个词，渲染也是个外来词，它是英文词render的翻译，render这个词在英文里面，有“导致”“变成”的意思，也有“粉刷墙壁”的意思。</p><p>在计算机图形学领域里，英文render这个词是一个简写，它是特指把模型变成位图的过程。我们把render翻译成“渲染”，是个非常有意思的翻译，中文里“渲染”这个词是一种绘画技法，是指沾清水把墨涂开的意思。</p><p>所以，render翻译成“渲染”，我认为是非常高明的，对render这个过程，用国画的渲染手法来概括，是颇有神似的。</p><p>我们现在的一些框架，也会把“从数据变成HTML代码的过程”称为render，其实我觉得这是非常具有误导性的，我个人是非常不喜欢这种命名方式，当然了，所谓“文无第一”，在自然语言的范围里，我们很难彻底否定这种用法的合理性。</p><!-- [[[read_end]]] --><p>不过，在本篇文章中，我们可以约定一下，本文中出现的“渲染”一词，统一指的是它在图形学的意义，也就是把模型变成位图的过程。</p><p>这里的位图就是在内存里建立一张二维表格，把一张图片的每个像素对应的颜色保存进去（位图信息也是DOM树中占据浏览器内存最多的信息，我们在做内存占用优化时，主要就是考虑这一部分）。</p><p>浏览器中渲染这个过程，就是把每一个元素对应的盒变成位图。这里的元素包括HTML元素和伪元素，一个元素可能对应多个盒（比如inline元素，可能会分成多行）。每一个盒对应着一张位图。</p><p>这个渲染过程是非常复杂的，但是总体来说，可以分成两个大类：图形和文字。</p><p>盒的背景、边框、SVG元素、阴影等特性，都是需要绘制的图形类。这就像我们实现HTTP协议必须要基于TCP库一样，这一部分，我们需要一个底层库来支持。</p><p>一般的操作系统会提供一个底层库，比如在Android中，有大名鼎鼎的Skia，而Windows平台则有GDI，一般的浏览器会做一个兼容层来处理掉平台差异。</p><p>这些盒的特性如何绘制，每一个都有对应的标准规定，而每一个的实现都可以作为一个独立的课题来研究，当年圆角+虚线边框，可是难倒了各个浏览器的工程师。考虑到这些知识互相都比较独立，对前端工程师来说也不是特别重要的细节，我们这里就不详细探究了。</p><p>盒中的文字，也需要用底层库来支持，叫做字体库。字体库提供读取字体文件的基本能力，它能根据字符的码点抽取出字形。</p><p>字形分为像素字形和矢量字形两种。通常的字体，会在6px 8px等小尺寸提供像素字形，比较大的尺寸则提供矢量字形。矢量字形本身就需要经过渲染才能继续渲染到元素的位图上去。目前最常用的字体库是Freetype，这是一个C++编写的开源的字体库。</p><p>在最普遍的情况下，渲染过程生成的位图尺寸跟它在上一步排版时占据的尺寸相同。</p><p>但是理想和现实是有差距的，很多属性会影响渲染位图的大小，比如阴影，它可能非常巨大，或者渲染到非常遥远的位置，所以为了优化，浏览器实际的实现中会把阴影作为一个独立的盒来处理。</p><p>注意，我们这里讲的渲染过程，是不会把子元素绘制到渲染的位图上的，这样，当父子元素的相对位置发生变化时，可以保证渲染的结果能够最大程度被缓存，减少重新渲染。</p><h2>合成</h2><p>合成是英文术语compositing的翻译，这个过程实际上是一个性能考量，它并非实现浏览器的必要一环。</p><p>我们上一小节中讲到，渲染过程不会把子元素渲染到位图上面，合成的过程，就是为一些元素创建一个“合成后的位图”（我们把它称为合成层），把一部分子元素渲染到合成的位图上面。</p><p>看到这句话，我想你一定会问问题，到底是为哪些元素创建合成后的位图，把哪些子元素渲染到合成的位图上面呢？</p><p>这就是我们要讲的合成的策略。我们前面讲了，合成是一个性能考量，那么合成的目标就是提高性能，根据这个目标，我们建立的原则就是最大限度减少绘制次数原则。</p><p>我们举一个极端的例子。如果我们把所有元素都进行合成，比如我们为根元素html创建一个合成后的位图，把所有子元素都进行合成，那么会发生什么呢？</p><p>那就是，一旦我们用JavaScript或者别的什么方式，改变了任何一个CSS属性，这份合成后的位图就失效了，我们需要重新绘制所有的元素。</p><p>那么如果我们所有的元素都不合成，会怎样呢？结果就是，相当于每次我们都必须要重新绘制所有的元素，这也不是对性能友好的选择。</p><p>那么好的合成策略是什么呢，好的合成策略是“猜测”可能变化的元素，把它排除到合成之外。</p><p>我们来举个例子：</p><pre><code>&lt;div id=&quot;a&quot;&gt;
+    &lt;div id=&quot;b&quot;&gt;...&lt;/div&gt;
+    &lt;div id=&quot;c&quot; style=&quot;transform:translate(0,0)&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>假设我们的合成策略能够把a、b两个div合成，而不把c合成，那么，当我执行以下代码时：</p><pre><code>document.getElementById(&quot;c&quot;).style.transform = &quot;translate(100px, 0)&quot;;
+</code></pre><p>我们绘制的时候，就可以只需要绘制a和b合成好的位图和c，从而减少了绘制次数。这里需要注意的是，在实际场景中，我们的b可能有很多复杂的子元素，所以当合成命中时，性能提升收益非常之高。</p><p>目前，主流浏览器一般根据position、transform等属性来决定合成策略，来“猜测”这些元素未来可能发生变化。</p><p>但是，这样的猜测准确性有限，所以新的CSS标准中，规定了will-change属性，可以由业务代码来提示浏览器的合成策略，灵活运用这样的特性，可以大大提升合成策略的效果。</p><h2>绘制</h2><p>绘制是把“位图最终绘制到屏幕上，变成肉眼可见的图像”的过程，不过，一般来说，浏览器并不需要用代码来处理这个过程，浏览器只需要把最终要显示的位图交给操作系统即可。</p><p>一般最终显式的位图位于显存中，也有一些情况下，浏览器只需要把内存中的一张位图提交给操作系统或者显式驱动就可以了，这取决于浏览器运行的环境。不过无论如何，我们把任何位图合成到这个“最终位图”的操作称为绘制。</p><p>这个过程听上去非常简单，这是因为在前面两个小节中，我们已经得到了每个元素的位图，并且对它们部分进行了合成，那么绘制过程，实际上就是按照z-index把它们依次绘制到屏幕上。</p><p>然而如果在实际中这样做,会带来极其糟糕的性能。</p><p>有一个一度非常流行于前端群体的说法，讲做CSS性能优化，应该尽量避免"重排"和"重绘"，前者讲的是我们上一课的排版行为，后者模糊地指向了我们本课程三小节讲的三个步骤，而实际上，这个说法大体不能算错，却不够准确。</p><p>因为，实际上，“绘制”发生的频率比我们想象中要高得多。我们考虑一个情况：鼠标划过浏览器显示区域。这个过程中，鼠标的每次移动，都造成了重新绘制，如果我们不重新绘制，就会产生大量的鼠标残影。</p><p>这个时候，限制绘制的面积就很重要了。如果鼠标某次位置恰巧遮盖了某个较小的元素，我们完全可以重新绘制这个元素来完成我们的目标，当然，简单想想就知道，这种事情不可能总是发生的。</p><p>计算机图形学中，我们使用的方案就是“脏矩形”算法，也就是把屏幕均匀地分成若干矩形区域。</p><p>当鼠标移动、元素移动或者其它导致需要重绘的场景发生时，我们只重新绘制它所影响到的几个矩形区域就够了。比矩形区域更小的影响最多只会涉及4个矩形，大型元素则覆盖多个矩形。</p><p>设置合适的矩形区域大小，可以很好地控制绘制时的消耗。设置过大的矩形会造成绘制面积增大，而设置过小的矩形则会造成计算复杂。</p><p>我们重新绘制脏矩形区域时，把所有与矩形区域有交集的合成层（位图）的交集部分绘制即可。</p><h2>总结</h2><p>在这一节课程中，我们讲解了浏览器中的位图操作部分，这包括了渲染、合成和绘制三个部分。渲染过程把元素变成位图，合成把一部分位图变成合成层，最终的绘制过程把合成层显示到屏幕上。</p><p>当绘制完成时，就完成了浏览器的最终任务，把一个URL最后变成了一个可以看的网页图像。当然了，我们对每一个部分的讲解，都省略了大量的细节，比如我们今天讲到的绘制，就有意地无视了滚动区域。</p><p>尽管如此，对浏览器工作原理的感性认识，仍然可以帮助我们理解很多前端技术的设计和应用技巧，浏览器的工作原理和性能部分非常强相关，我们在实践部分的性能优化部分，会再次跟你做一些探讨。</p><p>实际上，如果你认真阅读浏览器系列的课程，是可以用JavaScript实现一个玩具浏览器的，我非常希望学习课程的同学中能有人这样做，一旦你做到了，收益会非常大。这就是我今天留给你的课外作业，你可以尝试一下。</p><p><img src="https://static001.geekbang.org/resource/image/7c/b1/7ca7c24e92d25bde2e8609ed5386b5b1.jpg" alt=""></p>
+                    </div>
+                </div>
+                <div data-v-87ffcada="" class="article-comments"><h2 data-v-87ffcada=""><span
+                        data-v-87ffcada="">精选留言</span></h2>
+                    <ul data-v-87ffcada="">
+
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/2b/91/617a8391.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">wz</span>
+                                </div>
+                                <div class="bd">是用canvas模拟一个iframe吗<br></div>
+                                <span class="time">2019-02-19</span>
+                                <div class="reply"> <div class="reply-hd"><span>作者回复</span></div> <p class="reply-content">嗯 差不多是这个意思吧</p> <p class="reply-time">2019-02-19</p> </div>
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/38/ea/8d2aeb2d.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">espelansa</span>
+                                </div>
+                                <div class="bd">老师您好！在合成这边您写道“如果我们所有的元素都不合成，那么必须要重新绘制所有的元素”，这里我不是特别明白，为什么会需要重新绘制呢？<br></div>
+                                <span class="time">2019-02-22</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKC8icZH2kuZicWj96BEZ2y2su3zw0xNNicmH3jEA8yUlMtIzzlXOmvLp7700K5KkpDN7b8fmUK8DYvA/132" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">宝贝</span>
+                                </div>
+                                <div class="bd">做一个玩具浏览器的想法有点大胆好玩哈哈基础打好后可以尝试！<br></div>
+                                <span class="time">2019-02-18</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/c4/1b/3f82f287.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Fuhui</span>
+                                </div>
+                                <div class="bd">浏览器工作流程：<br>从服务器端获取文档数据☞浏览器解析成DOM树☞CSS根据DOM规则开始排版文档内容☞浏览器分文字和图形进行渲染在窗口展现☞接下来就是JS的交互了。<br><br>自己根据印象总结下。<br></div>
+                                <span class="time">2019-02-21</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/11/53/99/473cdc36.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Hulk</span>
+                                </div>
+                                <div class="bd">你好，我理解客户端在使用基于webkit的webView控件的时候，‘浏览器’的工作流程也是这样的吧？<br>大神能否明确一下浏览器在完成哪个节点以后会让webView控件发出webViewLoadFinish的通知？<br>此前遇到过一下问题，比如H5前端同学所言js是在页面加载成功后立马调用的，而客户端的同学未收到加载成功(收到webViewLoadFinish回调)却也看到了js的执行效果；所以这两端同学所言的加载成功，想必不是一回事？<br></div>
+                                <span class="time">2019-02-21</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/12/01/58/98719136.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">雍鹏亮</span>
+                                </div>
+                                <div class="bd">请问老师一下“渲染”和“绘制”这两个词的区别和联系，现实中很多都混用。<br></div>
+                                <span class="time">2019-02-25</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLCQX614vYChuhGrYJSichTb5gpEPnb5YdSpeBicFician56GRDaQT6Jfg4cax8MR8gvtw0E9fHwrGXjA/132" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Mr.Ren</span>
+                                </div>
+                                <div class="bd">感觉一遍看下来不是太懂，只能多看两遍<br></div>
+                                <span class="time">2019-02-23</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">zhy＿windy</span>
+                                </div>
+                                <div class="bd">每天十分钟，我觉得每一篇每天都得回顾一遍，像滚雪球一般的，这篇将我css相关的疑惑给打开，真正的难点还是渲染合成，css想写好还是得了解工作原理，谢谢老师！<br></div>
+                                <span class="time">2019-02-22</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/be/22/8bb1640f.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">oillie</span>
+                                </div>
+                                <div class="bd">跟developers.google上的用词有点不太一样，developers.google上是paint（绘制），对应本文中的render（渲染）<br><br>另外合成这块有点出入，以文中的例子来说，我的先前的认知是页面默认只有一个layer（chrome里的GraphicsLayer），c元素有transform样式属性，则单独生成一个layer，而合成是指gpu把两张layer合成一张位图<br></div>
+                                <span class="time">2019-02-21</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/15/42/e7/e5afadf7.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">风吹一个大耳东</span>
+                                </div>
+                                <div class="bd">读完浏览器工作原理这块，确实刷新了我之前学的关于浏览器的部分知识的认识~赞<br></div>
+                                <span class="time">2019-02-21</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/13/99/ad/9e190467.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">逆风</span>
+                                </div>
+                                <div class="bd">浏览器渲染出的结果如果是位图，请问输入框是怎么实现的？<br></div>
+                                <span class="time">2019-02-20</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJlgFmOLogkNRwKVyYbNzu79k2Y8k9d3AEiaIDmQWI3c7YNEw1RYPGmQteibthXTnwoSqBj0aibZhmfw/132" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">吴前端</span>
+                                </div>
+                                <div class="bd">老师，样式写在css文件里不写在文件style里面就是为了尽快解析token流的dom树嘛，还有什么好处没<br></div>
+                                <span class="time">2019-02-19</span>
+                                
+                            </div>
+                        </li>
+                        <li data-v-87ffcada="" class="comment-item"><img
+                                src="https://static001.geekbang.org/account/avatar/00/0f/94/56/8132292a.jpg" class="avatar">
+                            <div class="info">
+                                <div class="hd"><span class="username">Carson</span>
+                                </div>
+                                <div class="bd">没想到之前对“重绘”的理解并不准确，发生的频率远比想象的高很多，学到了。<br></div>
+                                <span class="time">2019-02-18</span>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
